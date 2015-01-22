@@ -25,14 +25,21 @@
  *  图片资源
  */
 @property (nonatomic, copy) NSString *imgsrc;
-
 /**
  *  多图数组
  */
 @property (nonatomic, strong) NSArray *imgextra;
+/**
+ *  新闻时间
+ */
+@property (nonatomic, copy) NSString *ptime;
+/**
+ *  视频ID
+ */
+@property (nonatomic, copy) NSString *videoID;
+
 
 @property (nonatomic, copy) NSString *tname;
-@property (nonatomic, copy) NSString *ptime;
 
 @property (nonatomic, copy) NSString *photosetID;
 @property (nonatomic, copy) NSNumber *hasHead;

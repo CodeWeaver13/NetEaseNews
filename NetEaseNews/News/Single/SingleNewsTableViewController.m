@@ -21,6 +21,11 @@
     [self.tableView reloadData];
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+//    [self setUrlString:@"nc/article/headline/T1348647853363/0-20.html"];
+}
+
 - (void)setUrlString:(NSString *)urlString {
     
     [[[WSYNetworkTools sharedNetworkTools] GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {

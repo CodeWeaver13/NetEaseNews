@@ -45,7 +45,13 @@
     
     self.titleLabel.text = newsModel.title;
     self.digestLabel.text = newsModel.digest;
-    self.replyLabel.text = [NSString stringWithFormat:@"%@跟贴", newsModel.replyCount];
+    if (newsModel.replyCount.intValue >= 10000) {
+        NSString *replyStr = [NSString stringWithFormat:@"%.1f万跟贴", (newsModel.replyCount.intValue * 0.0001)];
+        self.replyLabel.text = replyStr;
+    } else {
+        NSString *replyStr = [NSString stringWithFormat:@"%d跟贴", newsModel.replyCount.intValue];
+        self.replyLabel.text = replyStr;
+    }
     
     [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]];
     
