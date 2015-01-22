@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CF134F781A716F1700956401 /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF134F771A716F1700956401 /* BaseViewController.m */; };
+		CF134F7A1A7173AF00956401 /* Base.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF134F791A7173AF00956401 /* Base.storyboard */; };
 		CF3A018A1A70CC440067D07D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01881A70CC440067D07D /* AppDelegate.m */; };
 		CF3A018B1A70CC440067D07D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01891A70CC440067D07D /* main.m */; };
 		CF3A01B11A70CCA50067D07D /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01911A70CCA50067D07D /* MKAnnotationView+WebCache.m */; };
@@ -31,7 +33,6 @@
 		CF3A01CB1A70D1430067D07D /* SingleNewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01CA1A70D1430067D07D /* SingleNewsTableViewController.m */; };
 		CF3A01CD1A70E5C10067D07D /* NewsURLs.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF3A01CC1A70E5C10067D07D /* NewsURLs.plist */; };
 		CF3A01D01A70E5DA0067D07D /* CollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01CF1A70E5DA0067D07D /* CollectionViewController.m */; };
-		CF3A01D21A70E5E70067D07D /* Collection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3A01D11A70E5E70067D07D /* Collection.storyboard */; };
 		CF3A01D51A70E7890067D07D /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01D41A70E7890067D07D /* CollectionViewCell.m */; };
 		CF3A01EF1A70EFA80067D07D /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01DD1A70EFA80067D07D /* AFHTTPRequestOperation.m */; };
 		CF3A01F01A70EFA80067D07D /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A01DF1A70EFA80067D07D /* AFHTTPRequestOperationManager.m */; };
@@ -61,6 +62,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CF134F761A716F1700956401 /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		CF134F771A716F1700956401 /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
+		CF134F791A7173AF00956401 /* Base.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Base.storyboard; sourceTree = "<group>"; };
 		CF3A01871A70CC440067D07D /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		CF3A01881A70CC440067D07D /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		CF3A01891A70CC440067D07D /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -107,7 +111,6 @@
 		CF3A01CC1A70E5C10067D07D /* NewsURLs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NewsURLs.plist; sourceTree = "<group>"; };
 		CF3A01CE1A70E5DA0067D07D /* CollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewController.h; sourceTree = "<group>"; };
 		CF3A01CF1A70E5DA0067D07D /* CollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewController.m; sourceTree = "<group>"; };
-		CF3A01D11A70E5E70067D07D /* Collection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Collection.storyboard; sourceTree = "<group>"; };
 		CF3A01D31A70E7890067D07D /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
 		CF3A01D41A70E7890067D07D /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		CF3A01DC1A70EFA80067D07D /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -162,6 +165,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CF134F751A716EFE00956401 /* BaseNavigation */ = {
+			isa = PBXGroup;
+			children = (
+				CF134F761A716F1700956401 /* BaseViewController.h */,
+				CF134F771A716F1700956401 /* BaseViewController.m */,
+				CF134F791A7173AF00956401 /* Base.storyboard */,
+			);
+			path = BaseNavigation;
+			sourceTree = "<group>";
+		};
 		CF3A01861A70CC440067D07D /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +188,7 @@
 		CF3A018C1A70CC990067D07D /* News */ = {
 			isa = PBXGroup;
 			children = (
+				CF134F751A716EFE00956401 /* BaseNavigation */,
 				CF3A018D1A70CC990067D07D /* Collection */,
 				CF3A018E1A70CC990067D07D /* Single */,
 			);
@@ -184,7 +198,6 @@
 		CF3A018D1A70CC990067D07D /* Collection */ = {
 			isa = PBXGroup;
 			children = (
-				CF3A01D11A70E5E70067D07D /* Collection.storyboard */,
 				CF3A01CE1A70E5DA0067D07D /* CollectionViewController.h */,
 				CF3A01CF1A70E5DA0067D07D /* CollectionViewController.m */,
 				CF3A01D31A70E7890067D07D /* CollectionViewCell.h */,
@@ -442,7 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF3A02041A70F15F0067D07D /* NetworkTest.storyboard in Resources */,
-				CF3A01D21A70E5E70067D07D /* Collection.storyboard in Resources */,
+				CF134F7A1A7173AF00956401 /* Base.storyboard in Resources */,
 				CF3A01CD1A70E5C10067D07D /* NewsURLs.plist in Resources */,
 				CF3A01C21A70D0F20067D07D /* Single.storyboard in Resources */,
 				CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */,
@@ -464,6 +477,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF3A02051A70F15F0067D07D /* ViewController.m in Sources */,
+				CF134F781A716F1700956401 /* BaseViewController.m in Sources */,
 				CF3A01EF1A70EFA80067D07D /* AFHTTPRequestOperation.m in Sources */,
 				CF3A01D01A70E5DA0067D07D /* CollectionViewController.m in Sources */,
 				CF3A018A1A70CC440067D07D /* AppDelegate.m in Sources */,

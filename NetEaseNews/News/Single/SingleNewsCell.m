@@ -52,7 +52,7 @@
         NSString *replyStr = [NSString stringWithFormat:@"%d跟贴", newsModel.replyCount.intValue];
         self.replyLabel.text = replyStr;
     }
-    
+
     [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]];
     
     // 多图

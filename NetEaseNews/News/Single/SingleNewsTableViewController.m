@@ -15,15 +15,15 @@
 @end
 
 @implementation SingleNewsTableViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+//    self.view.bounds = CGRectMake(0, 0, 320, 568);
+}
+
 - (void)setNewsList:(NSArray *)newsList {
     _newsList = newsList;
     
     [self.tableView reloadData];
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-//    [self setUrlString:@"nc/article/headline/T1348647853363/0-20.html"];
 }
 
 - (void)setUrlString:(NSString *)urlString {
