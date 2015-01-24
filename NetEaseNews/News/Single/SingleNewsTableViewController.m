@@ -20,12 +20,6 @@
 //    self.view.bounds = CGRectMake(0, 0, 320, 568);
 }
 
-- (void)setNewsList:(NSArray *)newsList {
-    _newsList = newsList;
-    
-    [self.tableView reloadData];
-}
-
 - (void)setUrlString:(NSString *)urlString {
     
     [[[WSYNetworkTools sharedNetworkTools] GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
@@ -38,6 +32,7 @@
             [arrayM addObject:[SingleModel singleModelWithDict:obj]];
         }];
         self.newsList = arrayM;
+        [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
     }] resume];

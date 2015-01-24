@@ -10,10 +10,11 @@
 
 @implementation SingleModel
 + (instancetype)singleModelWithDict:(NSDictionary *)dict {
-    id obj = [[self alloc] init];
-    
-    [obj setValuesForKeysWithDictionary:dict];
-    
-    return obj;
+    return [[self alloc] initWithDict:dict];
+}
+- (instancetype)initWithDict:(NSDictionary *)dict {
+    if (self = [super init]) {
+        [self setValuesForKeysWithDictionary:dict];    }
+    return self;
 }
 @end

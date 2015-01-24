@@ -37,26 +37,55 @@
  *  视频ID
  */
 @property (nonatomic, copy) NSString *videoID;
-
-
+// 模版
+@property (nonatomic, copy) NSString *template;
+// 头条icid
+@property (nonatomic, copy) NSString *topicid;
+// 栏目中文名
 @property (nonatomic, copy) NSString *tname;
+// 是否有封面
+@property (nonatomic, assign) BOOL hasCover;
+// 英文名
+@property (nonatomic, copy) NSString *alias;
+// 子新闻数
+@property (nonatomic, copy) NSString *subnum;
+// order
+@property (nonatomic, copy) NSNumber * recommendOrder;
+// 新旧
+@property (nonatomic, copy) NSNumber * isNew;
+// 图片标示
+@property (nonatomic, copy) NSString *img;
+// 是否热门
+@property (nonatomic, copy) NSNumber * isHot;
+// 是否有图片
+@property (nonatomic, assign) BOOL hasIcon;
+// 标示
+@property (nonatomic, copy) NSString *cid;
+// recommend
+@property (nonatomic, copy) NSString *recommend;
+// headLine
+@property (nonatomic, assign) BOOL headLine;
+// color
+@property (nonatomic, copy) NSString *color;
+// 广告单
+@property (nonatomic, copy) NSNumber *bannerOrder;
+// 栏目拼音名
+@property (nonatomic, copy) NSString *ename;
+// showType
+@property (nonatomic, copy) NSString *showType;
+// tid
+@property (nonatomic, copy) NSString *tid;
 
 @property (nonatomic, copy) NSString *photosetID;
 @property (nonatomic, copy) NSNumber *hasHead;
 @property (nonatomic, copy) NSNumber *hasImg;
 @property (nonatomic, copy) NSString *lmodify;
-@property (nonatomic, copy) NSString *template;
-@property (nonatomic, copy) NSString *skipType;
 
-@property (nonatomic, copy) NSString *alias;
+
+@property (nonatomic, copy) NSString *skipType;
 @property (nonatomic, copy) NSString *docid;
-@property (nonatomic, assign) BOOL hasCover;
 @property (nonatomic, copy) NSNumber *hasAD;
 @property (nonatomic, copy) NSNumber *priority;
-@property (nonatomic, copy) NSString *cid;
-
-@property (nonatomic, assign) BOOL hasIcon;
-@property (nonatomic, copy) NSString *ename;
 @property (nonatomic, copy) NSString *skipID;
 @property (nonatomic, copy) NSNumber *order;
 

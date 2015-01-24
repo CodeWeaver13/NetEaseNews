@@ -46,9 +46,15 @@
 		CF3A02041A70F15F0067D07D /* NetworkTest.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF3A02011A70F15F0067D07D /* NetworkTest.storyboard */; };
 		CF3A02051A70F15F0067D07D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A02031A70F15F0067D07D /* ViewController.m */; };
 		CF3A02081A7138000067D07D /* NSString+StringExt.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3A02071A7138000067D07D /* NSString+StringExt.m */; };
+		CFA3FEB51A73395D0053BB51 /* TitleCollectionBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */; };
 		CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFC829D21A6F92BA003DC056 /* Images.xcassets */; };
 		CFC829E21A6F92BA003DC056 /* NetEaseNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC829E11A6F92BA003DC056 /* NetEaseNewsTests.m */; };
 		CFC82A0C1A6F9308003DC056 /* WSYNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC82A0B1A6F9308003DC056 /* WSYNetworkTools.m */; };
+		CFF67B3D1A72B7BB0000D151 /* ChannelModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF67B3C1A72B7BB0000D151 /* ChannelModel.m */; };
+		CFF67B3F1A72CA260000D151 /* all.json in Resources */ = {isa = PBXBuildFile; fileRef = CFF67B3E1A72CA260000D151 /* all.json */; };
+		CFF8A8461A737F45000F7308 /* BrickIndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8411A737F45000F7308 /* BrickIndexPath.m */; };
+		CFF8A8471A737F45000F7308 /* BrickView+Logic.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8431A737F45000F7308 /* BrickView+Logic.m */; };
+		CFF8A8481A737F45000F7308 /* BrickView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8451A737F45000F7308 /* BrickView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -137,6 +143,8 @@
 		CF3A02031A70F15F0067D07D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		CF3A02061A7138000067D07D /* NSString+StringExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringExt.h"; sourceTree = "<group>"; };
 		CF3A02071A7138000067D07D /* NSString+StringExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringExt.m"; sourceTree = "<group>"; };
+		CFA3FEB31A73395D0053BB51 /* TitleCollectionBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleCollectionBarCell.h; sourceTree = "<group>"; };
+		CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleCollectionBarCell.m; sourceTree = "<group>"; };
 		CFC829C21A6F92BA003DC056 /* NetEaseNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetEaseNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFC829C61A6F92BA003DC056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFC829D21A6F92BA003DC056 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -145,6 +153,15 @@
 		CFC829E11A6F92BA003DC056 /* NetEaseNewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NetEaseNewsTests.m; sourceTree = "<group>"; };
 		CFC82A0A1A6F9308003DC056 /* WSYNetworkTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSYNetworkTools.h; sourceTree = "<group>"; };
 		CFC82A0B1A6F9308003DC056 /* WSYNetworkTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSYNetworkTools.m; sourceTree = "<group>"; };
+		CFF67B3B1A72B7BB0000D151 /* ChannelModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChannelModel.h; sourceTree = "<group>"; };
+		CFF67B3C1A72B7BB0000D151 /* ChannelModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChannelModel.m; sourceTree = "<group>"; };
+		CFF67B3E1A72CA260000D151 /* all.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = all.json; sourceTree = "<group>"; };
+		CFF8A8401A737F45000F7308 /* BrickIndexPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrickIndexPath.h; sourceTree = "<group>"; };
+		CFF8A8411A737F45000F7308 /* BrickIndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrickIndexPath.m; sourceTree = "<group>"; };
+		CFF8A8421A737F45000F7308 /* BrickView+Logic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BrickView+Logic.h"; sourceTree = "<group>"; };
+		CFF8A8431A737F45000F7308 /* BrickView+Logic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BrickView+Logic.m"; sourceTree = "<group>"; };
+		CFF8A8441A737F45000F7308 /* BrickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrickView.h; sourceTree = "<group>"; };
+		CFF8A8451A737F45000F7308 /* BrickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrickView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +188,8 @@
 				CF134F761A716F1700956401 /* BaseViewController.h */,
 				CF134F771A716F1700956401 /* BaseViewController.m */,
 				CF134F791A7173AF00956401 /* Base.storyboard */,
+				CFA3FEB31A73395D0053BB51 /* TitleCollectionBarCell.h */,
+				CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */,
 			);
 			path = BaseNavigation;
 			sourceTree = "<group>";
@@ -188,6 +207,7 @@
 		CF3A018C1A70CC990067D07D /* News */ = {
 			isa = PBXGroup;
 			children = (
+				CFF67B3A1A72B79A0000D151 /* Model */,
 				CF134F751A716EFE00956401 /* BaseNavigation */,
 				CF3A018D1A70CC990067D07D /* Collection */,
 				CF3A018E1A70CC990067D07D /* Single */,
@@ -330,6 +350,7 @@
 		CFC829C51A6F92BA003DC056 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CFF67B3E1A72CA260000D151 /* all.json */,
 				CF3A01CC1A70E5C10067D07D /* NewsURLs.plist */,
 				CFC829D21A6F92BA003DC056 /* Images.xcassets */,
 				CFC829C61A6F92BA003DC056 /* Info.plist */,
@@ -357,6 +378,7 @@
 		CFC829EB1A6F92E8003DC056 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				CFF8A83F1A737F45000F7308 /* BrickView */,
 				CF3A02061A7138000067D07D /* NSString+StringExt.h */,
 				CF3A02071A7138000067D07D /* NSString+StringExt.m */,
 				CFC82A0A1A6F9308003DC056 /* WSYNetworkTools.h */,
@@ -372,6 +394,28 @@
 				CF3A018F1A70CCA50067D07D /* SDWebImage */,
 			);
 			path = Vendor;
+			sourceTree = "<group>";
+		};
+		CFF67B3A1A72B79A0000D151 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CFF67B3B1A72B7BB0000D151 /* ChannelModel.h */,
+				CFF67B3C1A72B7BB0000D151 /* ChannelModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CFF8A83F1A737F45000F7308 /* BrickView */ = {
+			isa = PBXGroup;
+			children = (
+				CFF8A8401A737F45000F7308 /* BrickIndexPath.h */,
+				CFF8A8411A737F45000F7308 /* BrickIndexPath.m */,
+				CFF8A8421A737F45000F7308 /* BrickView+Logic.h */,
+				CFF8A8431A737F45000F7308 /* BrickView+Logic.m */,
+				CFF8A8441A737F45000F7308 /* BrickView.h */,
+				CFF8A8451A737F45000F7308 /* BrickView.m */,
+			);
+			path = BrickView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -459,6 +503,7 @@
 				CF3A01CD1A70E5C10067D07D /* NewsURLs.plist in Resources */,
 				CF3A01C21A70D0F20067D07D /* Single.storyboard in Resources */,
 				CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */,
+				CFF67B3F1A72CA260000D151 /* all.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,15 +524,18 @@
 				CF3A02051A70F15F0067D07D /* ViewController.m in Sources */,
 				CF134F781A716F1700956401 /* BaseViewController.m in Sources */,
 				CF3A01EF1A70EFA80067D07D /* AFHTTPRequestOperation.m in Sources */,
+				CFF8A8471A737F45000F7308 /* BrickView+Logic.m in Sources */,
 				CF3A01D01A70E5DA0067D07D /* CollectionViewController.m in Sources */,
 				CF3A018A1A70CC440067D07D /* AppDelegate.m in Sources */,
 				CF3A01F61A70EFA80067D07D /* AFURLResponseSerialization.m in Sources */,
 				CFC82A0C1A6F9308003DC056 /* WSYNetworkTools.m in Sources */,
 				CF3A01C51A70D1100067D07D /* SingleModel.m in Sources */,
+				CFA3FEB51A73395D0053BB51 /* TitleCollectionBarCell.m in Sources */,
 				CF3A01CB1A70D1430067D07D /* SingleNewsTableViewController.m in Sources */,
 				CF3A01BD1A70CCA50067D07D /* UIImage+WebP.m in Sources */,
 				CF3A01F41A70EFA80067D07D /* AFURLConnectionOperation.m in Sources */,
 				CF3A01F01A70EFA80067D07D /* AFHTTPRequestOperationManager.m in Sources */,
+				CFF8A8461A737F45000F7308 /* BrickIndexPath.m in Sources */,
 				CF3A01BA1A70CCA50067D07D /* UIButton+WebCache.m in Sources */,
 				CF3A01B71A70CCA50067D07D /* SDWebImageDownloaderOperation.m in Sources */,
 				CF3A01D51A70E7890067D07D /* CollectionViewCell.m in Sources */,
@@ -500,6 +548,7 @@
 				CF3A01B61A70CCA50067D07D /* SDWebImageDownloader.m in Sources */,
 				CF3A01B41A70CCA50067D07D /* SDWebImageCompat.m in Sources */,
 				CF3A01F21A70EFA80067D07D /* AFNetworkReachabilityManager.m in Sources */,
+				CFF67B3D1A72B7BB0000D151 /* ChannelModel.m in Sources */,
 				CF3A01BB1A70CCA50067D07D /* UIImage+GIF.m in Sources */,
 				CF3A01F11A70EFA80067D07D /* AFHTTPSessionManager.m in Sources */,
 				CF3A01F51A70EFA80067D07D /* AFURLRequestSerialization.m in Sources */,
@@ -512,6 +561,7 @@
 				CF3A01C01A70CCA50067D07D /* UIView+WebCacheOperation.m in Sources */,
 				CF3A01B81A70CCA50067D07D /* SDWebImageManager.m in Sources */,
 				CF3A018B1A70CC440067D07D /* main.m in Sources */,
+				CFF8A8481A737F45000F7308 /* BrickView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

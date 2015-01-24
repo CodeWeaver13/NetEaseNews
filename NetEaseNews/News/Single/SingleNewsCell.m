@@ -32,7 +32,7 @@
 
 + (CGFloat)rowHeightWithModel:(SingleModel *)news {
     if (news.imgType) {
-        return 180;
+        return 200;
     } else if (news.imgextra) {
         return 120;
     } else {

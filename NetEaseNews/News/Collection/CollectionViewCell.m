@@ -18,9 +18,7 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Single" bundle:nil];
     self.newsVC = sb.instantiateInitialViewController;
     
-    self.bounds = self.newsVC.view.bounds;
-    NSLog(@"%@", NSStringFromCGRect(self.newsVC.view.bounds));
-    [self addSubview:self.newsVC.view];
+    self.bounds = self.newsVC.view.bounds;    [self addSubview:self.newsVC.view];
 }
 
 - (void)setUrlString:(NSString *)urlString {
