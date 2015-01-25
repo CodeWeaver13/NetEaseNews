@@ -13,9 +13,16 @@
 @interface CollectionViewController ()
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *layout;
 @property (nonatomic, strong) NSArray *urlList;
+@property (nonatomic, strong) BaseViewController *baseVC;
 @end
 
 @implementation CollectionViewController
+
+- (void)changePageWithNoti:(NSNotification *)noti {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[noti.object intValue] inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
+}
+
 - (NSArray *)urlList {
     if (_urlList == nil) {
         BaseViewController *base = [[BaseViewController alloc] init];
@@ -44,6 +51,11 @@
     self.collectionView.showsVerticalScrollIndicator = NO;
 }
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePageWithNoti:) name:@"BaseViewBtnTag" object:nil];
+}
+
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -51,9 +63,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsTableCell" forIndexPath:indexPath];
     cell.urlString = self.urlList[indexPath.item];
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%ld", indexPath.row);
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"CollectionViewPage" object:indexPath];
+//    [self.delegate changeTitleWithIndexPath:indexPath];
+    if (_collBlock) {
+        _collBlock(indexPath);
+    }
+
 }
 @end

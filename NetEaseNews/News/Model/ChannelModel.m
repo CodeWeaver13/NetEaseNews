@@ -14,6 +14,7 @@
     return [[self alloc] initWithDict:dict];
 }
 
+static int a = 0;
 - (instancetype)initWithDict:(NSDictionary *)dict {
     if (self = [super init]) {
         [self setValue:@"cName" forKey:@"cName"];
@@ -23,6 +24,8 @@
         for (NSDictionary *dict in dicts) {
             SingleModel *single = [SingleModel singleModelWithDict:dict];
             [arrayM addObject:single];
+            single.titleTag = a;
+            a++;
         }
         self.tList = arrayM;
     }

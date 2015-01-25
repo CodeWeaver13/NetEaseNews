@@ -5,23 +5,24 @@
 //  Created by wangshiyu13 on 15/1/23.
 //  Copyright (c) 2015年 wangshiyu13. All rights reserved.
 //
-#import "BaseViewController.h"
+#import "SDImageCache.h"
 #import "AFURLResponseSerialization.h"
+#import "NSString+StringExt.h"
+
+#import "TitleCollectionBarCell.h"
+#import "BaseViewController.h"
 #import "ChannelModel.h"
 #import "SingleModel.h"
-#import "TitleCollectionBarCell.h"
-#import "NSString+StringExt.h"
 
 @interface BaseViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *channelCollection;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *channelLayout;
 @property (weak, nonatomic) IBOutlet UIView *collectionViewContain;
 @property (nonatomic, strong) NSArray *channelList;
-
 @end
 
 @implementation BaseViewController
-
+#pragma mark - 懒加载模型数组
 - (NSArray *)tList {
     if (_tList == nil) {
         NSMutableArray *arrayM = [NSMutableArray array];
@@ -56,48 +57,32 @@
     return _channelList;
 }
 
-//- (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
-//    cell
-//}
-
 #pragma mark － 导航标题collection数据元方法
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.tList.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    [self setupChannelLayout];
-    TitleCollectionBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"channelCell" forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor colorWithRed:(arc4random_uniform(255)/255.0) green:(arc4random_uniform(255)/255.0) blue:(arc4random_uniform(255)/255.0) alpha:1];
+    TitleCollectionBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL" forIndexPath:indexPath];
     SingleModel *single = self.tList[indexPath.item];
-    NSString *tname = single.tname;
-    CGSize textSize = [tname sizeWithFont:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(MAXFLOAT, 30)];
-    [cell.tNameBtn setTitle:tname forState:UIControlStateNormal];
-    cell.tNameBtn.bounds = CGRectMake(0, 0, textSize.width + 10, 30);
-    cell.bounds = CGRectMake(0, 0, cell.tNameBtn.bounds.size.width + 10, 30);
-    NSLog(@"%s", __func__);
+    cell.model = single;
     return cell;
 }
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     SingleModel *single = self.tList[indexPath.item];
     NSString *tname = single.tname;
-    CGSize textSize = [tname sizeWithFont:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(MAXFLOAT, 30)];
-//    collectionViewLayout.
-//    cell.bounds = CGRectMake(0, 0, cell.tNameBtn.bounds.size.width + 10, 30);
-    return textSize;
+    CGSize textSize = [tname sizeWithFont:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(MAXFLOAT, 35)];
+    CGSize collViewSize = CGSizeMake(textSize.width + 14, 30);
+    return collViewSize;
 }
 
-
 //上下间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 //行间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
-{
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
 
@@ -105,13 +90,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self setupChannelLayout];
+
+    [self.channelCollection registerClass:[TitleCollectionBarCell class] forCellWithReuseIdentifier:@"CELL"];
 }
 
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    NSLog(@"%s", __func__);
-    
-}
 /**
  *  设置ChannelCollectionBar的Layout
  */
@@ -122,6 +105,7 @@
     
     self.channelCollection.showsHorizontalScrollIndicator = NO;
     self.channelCollection.showsVerticalScrollIndicator = NO;
+    
 }
 /**
  *  设置NavigationBar
@@ -149,6 +133,8 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
-
-
+- (void)didReceiveMemoryWarning {
+    [[SDImageCache alloc] clearMemory];
+    NSLog(@"我来了");
+}
 @end

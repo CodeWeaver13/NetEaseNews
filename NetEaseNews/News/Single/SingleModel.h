@@ -105,6 +105,8 @@
 @property (nonatomic, copy) NSString *specialID;
 @property (nonatomic, strong) NSArray *specialextra;
 
+@property (nonatomic, assign) NSInteger titleTag;
+
 + (instancetype)singleModelWithDict:(NSDictionary *)dict;
 
 @end

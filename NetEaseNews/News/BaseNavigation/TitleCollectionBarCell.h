@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class SingleModel;
 @interface TitleCollectionBarCell : UICollectionViewCell
-@property (weak, nonatomic) IBOutlet UIButton *tNameBtn;
+@property (nonatomic, strong) SingleModel *model;
 @end

@@ -20,6 +20,17 @@
 @end
 @implementation SingleNewsCell
 
+/**
+ *  绘制ell的底边线
+ */
+- (void)drawRect:(CGRect)rect {
+    UIBezierPath *bPath = [UIBezierPath bezierPath];
+    [bPath moveToPoint:CGPointMake(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 1)];
+    [bPath addLineToPoint:CGPointMake(0, CGRectGetHeight(self.frame) - 1)];
+    bPath.lineWidth = 0.05;
+    [bPath stroke];
+}
+
 + (NSString *)cellIDWithModel:(SingleModel *)news {
     if (news.imgType) {
         return @"HugeImageCell";
@@ -53,12 +64,12 @@
         self.replyLabel.text = replyStr;
     }
 
-    [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]];
+    [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]placeholderImage:nil options:SDWebImageLowPriority];
     
     // 多图
     if (newsModel.imgextra.count == 2) {
-        [self.newsImageView1 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[0][@"imgsrc"]]];
-        [self.newsImageView2 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[1][@"imgsrc"]]];
+        [self.newsImageView1 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[0][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority];
+        [self.newsImageView2 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[1][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority];
     }
 }
 @end

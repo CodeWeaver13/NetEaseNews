@@ -55,6 +55,8 @@
 		CFF8A8461A737F45000F7308 /* BrickIndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8411A737F45000F7308 /* BrickIndexPath.m */; };
 		CFF8A8471A737F45000F7308 /* BrickView+Logic.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8431A737F45000F7308 /* BrickView+Logic.m */; };
 		CFF8A8481A737F45000F7308 /* BrickView.m in Sources */ = {isa = PBXBuildFile; fileRef = CFF8A8451A737F45000F7308 /* BrickView.m */; };
+		CFFA8BDE1A738B9B005A5E28 /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = CFFA8BDD1A738B9B005A5E28 /* content.css */; };
+		CFFA8BE11A73A20C005A5E28 /* SingleNewsHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CFFA8BE01A73A20C005A5E28 /* SingleNewsHeaderCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -162,6 +164,9 @@
 		CFF8A8431A737F45000F7308 /* BrickView+Logic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "BrickView+Logic.m"; sourceTree = "<group>"; };
 		CFF8A8441A737F45000F7308 /* BrickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrickView.h; sourceTree = "<group>"; };
 		CFF8A8451A737F45000F7308 /* BrickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrickView.m; sourceTree = "<group>"; };
+		CFFA8BDD1A738B9B005A5E28 /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
+		CFFA8BDF1A73A20C005A5E28 /* SingleNewsHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleNewsHeaderCell.h; sourceTree = "<group>"; };
+		CFFA8BE01A73A20C005A5E28 /* SingleNewsHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleNewsHeaderCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,9 +190,9 @@
 		CF134F751A716EFE00956401 /* BaseNavigation */ = {
 			isa = PBXGroup;
 			children = (
+				CF134F791A7173AF00956401 /* Base.storyboard */,
 				CF134F761A716F1700956401 /* BaseViewController.h */,
 				CF134F771A716F1700956401 /* BaseViewController.m */,
-				CF134F791A7173AF00956401 /* Base.storyboard */,
 				CFA3FEB31A73395D0053BB51 /* TitleCollectionBarCell.h */,
 				CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */,
 			);
@@ -234,6 +239,8 @@
 				CF3A01C41A70D1100067D07D /* SingleModel.m */,
 				CF3A01C61A70D11C0067D07D /* SingleNewsCell.h */,
 				CF3A01C71A70D11C0067D07D /* SingleNewsCell.m */,
+				CFFA8BDF1A73A20C005A5E28 /* SingleNewsHeaderCell.h */,
+				CFFA8BE01A73A20C005A5E28 /* SingleNewsHeaderCell.m */,
 				CF3A01C91A70D1430067D07D /* SingleNewsTableViewController.h */,
 				CF3A01CA1A70D1430067D07D /* SingleNewsTableViewController.m */,
 			);
@@ -350,6 +357,7 @@
 		CFC829C51A6F92BA003DC056 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CFFA8BDD1A738B9B005A5E28 /* content.css */,
 				CFF67B3E1A72CA260000D151 /* all.json */,
 				CF3A01CC1A70E5C10067D07D /* NewsURLs.plist */,
 				CFC829D21A6F92BA003DC056 /* Images.xcassets */,
@@ -502,6 +510,7 @@
 				CF134F7A1A7173AF00956401 /* Base.storyboard in Resources */,
 				CF3A01CD1A70E5C10067D07D /* NewsURLs.plist in Resources */,
 				CF3A01C21A70D0F20067D07D /* Single.storyboard in Resources */,
+				CFFA8BDE1A738B9B005A5E28 /* content.css in Resources */,
 				CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */,
 				CFF67B3F1A72CA260000D151 /* all.json in Resources */,
 			);
@@ -562,6 +571,7 @@
 				CF3A01B81A70CCA50067D07D /* SDWebImageManager.m in Sources */,
 				CF3A018B1A70CC440067D07D /* main.m in Sources */,
 				CFF8A8481A737F45000F7308 /* BrickView.m in Sources */,
+				CFFA8BE11A73A20C005A5E28 /* SingleNewsHeaderCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

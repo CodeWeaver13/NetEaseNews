@@ -9,6 +9,7 @@
 #import "SingleNewsTableViewController.h"
 #import "SingleModel.h"
 #import "SingleNewsCell.h"
+#import "SingleNewsHeaderCell.h"
 #import "WSYNetworkTools.h"
 @interface SingleNewsTableViewController ()
 @property (nonatomic, strong) NSArray *newsList;
@@ -17,7 +18,6 @@
 @implementation SingleNewsTableViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.view.bounds = CGRectMake(0, 0, 320, 568);
 }
 
 - (void)setUrlString:(NSString *)urlString {
@@ -44,22 +44,26 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     SingleModel *news = self.newsList[indexPath.row];
     NSString *ID = [SingleNewsCell cellIDWithModel:news];
-    
-    SingleNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:ID forIndexPath:indexPath];
-    
-    cell.newsModel = news;
-    
-    return cell;
+    if (indexPath.row == 0) {
+        SingleNewsHeaderCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"HeaderCell"];
+        headerCell.newsModel = news;
+        return headerCell;
+    } else {
+        SingleNewsCell *cell = [tableView dequeueReusableCellWithIdentifier:ID forIndexPath:indexPath];
+        cell.newsModel = news;
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     SingleModel *news = self.newsList[indexPath.row];
-    
-    return [SingleNewsCell rowHeightWithModel:news];
+    if (indexPath.row == 0) {
+        return [SingleNewsHeaderCell rowHeight];
+    } else {
+        return [SingleNewsCell rowHeightWithModel:news];
+    }
 }
 
 @end
