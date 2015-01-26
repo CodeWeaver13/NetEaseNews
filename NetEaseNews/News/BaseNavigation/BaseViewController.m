@@ -61,7 +61,7 @@ static UIButton *prevBtn;
     TitleCollectionBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL" forIndexPath:indexPath];
     SingleModel *single = self.tList[indexPath.item];
     cell.model = single;
-    cell.tNameBtn.tag = indexPath.item + 100;
+    cell.tNameBtn.tag = indexPath.item + 999;
     [cell.tNameBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
@@ -91,13 +91,13 @@ static UIButton *prevBtn;
 
 - (void)viewWillLayoutSubviews {
     [super viewWillLayoutSubviews];
-    [self btnClickAndAni:(UIButton *)[self.channelCollection viewWithTag:100]];
+    [self btnClickAndAni:(UIButton *)[self.channelCollection viewWithTag:999]];
 }
 
 #pragma mark - 按钮状态改变通知方法
 - (void)changeBtnWithNoti:(NSNotification *)noti {    NSInteger index = [noti.object integerValue];
     NSLog(@"%ld", (long)index);
-    UIButton *btn = (UIButton *)[self.channelCollection viewWithTag:index + 100];
+    UIButton *btn = (UIButton *)[self.channelCollection viewWithTag:index + 999];
     [self btnClickAndAni:btn];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index + 1 inSection:0];
     if (index < (self.tList.count - 1)) {
@@ -109,7 +109,7 @@ static UIButton *prevBtn;
 - (void)btnClick:(UIButton *)btn {
     [self btnClickAndAni:btn];
 #pragma mark = 用通知传btn.tag
-    NSNumber *tag = [[NSNumber alloc] initWithInteger:btn.tag - 100];
+    NSNumber *tag = [[NSNumber alloc] initWithInteger:btn.tag - 999];
     NSLog(@"%@", tag);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BaseViewBtnTag" object:tag];
 }
@@ -182,6 +182,6 @@ static UIButton *prevBtn;
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"CollViewPageIndex" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

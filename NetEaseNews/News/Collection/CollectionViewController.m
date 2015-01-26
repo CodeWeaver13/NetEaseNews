@@ -19,6 +19,7 @@
 @implementation CollectionViewController
 
 - (void)changePageWithNoti:(NSNotification *)noti {
+    NSLog(@"%@", noti.object);
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[noti.object intValue] inSection:0];
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
@@ -56,7 +57,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changePageWithNoti:) name:@"BaseViewBtnTag" object:nil];
 }
 
-
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -69,20 +69,14 @@
     return cell;
 }
 
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    NSLog(@"fsdsdf");
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    NSLog(@"fasdfsda");
     CGFloat scrollW = self.collectionView.frame.size.width;
-    int page = (scrollView.contentOffset.x + 0.6 * scrollW) / scrollW;
+    int page = (self.collectionView.contentOffset.x + 0.5 * scrollW) / scrollW;
     NSNumber *index = [NSNumber numberWithInteger:page];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"CollViewPageIndex" object:index];
+}
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

@@ -26,7 +26,6 @@
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
-    
     [self.tNameBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [self.tNameBtn setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
     self.tNameBtn.titleLabel.font = [UIFont systemFontOfSize:16];

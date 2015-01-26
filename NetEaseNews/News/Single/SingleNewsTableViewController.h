@@ -10,5 +10,5 @@
 
 @interface SingleNewsTableViewController : UITableViewController
 @property (nonatomic, copy) NSString *urlString;
-
+- (void)setupRefresh;
 @end

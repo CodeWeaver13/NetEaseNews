@@ -14,20 +14,73 @@
 #import "DetailViewController.h"
 #import "MJExtension.h"
 #import "NSObject+Extension.h"
+#import "MJRefresh.h"
 #import "WSYNetworkTools.h"
+
+
 @interface SingleNewsTableViewController ()
-@property (nonatomic, strong) NSArray *newsList;
+@property (nonatomic, strong) NSMutableArray *newsList;
+@property (nonatomic, strong) NSString *currentUrl;
 @end
 
 @implementation SingleNewsTableViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupRefresh];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"BaseViewBtnTag" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"CollViewPageIndex" object:nil];
+}
+
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [self.tableView addHeaderWithTarget:self action:@selector(headerRereshing) dateKey:@"table"];
+    [self.tableView headerBeginRefreshing];
+    // 2.上拉加载更多(进入刷新状态就会调用self的footerRereshing)
+    [self.tableView addFooterWithTarget:self action:@selector(footerRereshing)];
+    // 设置文字(也可以不设置,默认的文字在MJRefreshConst中修改)
+    self.tableView.headerPullToRefreshText = @"下拉可以刷新了";
+    self.tableView.headerReleaseToRefreshText = @"松开马上刷新了";
+    self.tableView.headerRefreshingText = @"正在刷新中";
+    
+    self.tableView.footerPullToRefreshText = @"上拉可以加载更多数据了";
+    self.tableView.footerReleaseToRefreshText = @"松开马上加载更多数据了";
+    self.tableView.footerRefreshingText = @"正在加载中";
+}
+
+#pragma mark 开始进入刷新状态
+- (void)headerRereshing {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        // 刷新表格
+        [self setUrlString:self.currentUrl];
+        [self.tableView headerEndRefreshing];
+    });
+}
+
+- (void)footerRereshing {
+    NSLog(@"%@", self.currentUrl);
+    NSMutableString *str = [NSMutableString string];
+    [str appendFormat:@"%@", self.currentUrl];
+    NSString *str1 = [str substringWithRange:NSMakeRange(str.length - 7, 2)];
+    int a = [str1 intValue];
+    a += 20;
+    NSString *str2 = [NSString stringWithFormat:@"%d", a];
+    [str replaceOccurrencesOfString:str1 withString:str2 options:NSCaseInsensitiveSearch range:NSMakeRange(str.length - 7, 2)];
+    NSLog(@"%@", str);
+    self.currentUrl = str;
+    [self setUrlString:str];
+    [self.tableView reloadData];
+    [self.tableView footerEndRefreshing];
 }
 
 - (void)setUrlString:(NSString *)urlString {
+    self.currentUrl = urlString;
     [[[WSYNetworkTools sharedNetworkTools] GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
         NSString *key = [responseObject.keyEnumerator nextObject];
-        self.newsList = [SingleModel objectArrayWithKeyValuesArray:responseObject[key]];
+        self.newsList = [NSMutableArray arrayWithArray:[SingleModel objectArrayWithKeyValuesArray:responseObject[key]]];
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -77,4 +130,7 @@
 //    [navi pushViewController:newsDetails animated:YES];
 }
 
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 @end

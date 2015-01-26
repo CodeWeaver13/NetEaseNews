@@ -27,7 +27,7 @@
     self.title = @"新闻详情";
     [self setupNavigation];
     // 发送一个GET请求, 获得新闻的详情数据
-    NSString *url = [NSString stringWithFormat:@"http://c.m.163.com/nc/article/%@/full.html", self.singleModel.docid];
+    NSString *url = [NSString stringWithFormat:@"/nc/article/%@/full.html", self.singleModel.docid];
     [[WSYNetworkTools sharedNetworkTools] GET:url parameters:nil success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
 //        self.detail = [DetailModel detailWithDict:responseObject[self.singleModel.docid]];
         self.detail = [DetailModel objectWithKeyValues:responseObject[self.singleModel.docid]];

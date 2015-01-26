@@ -26,4 +26,5 @@
     _urlString = urlString;
     self.newsVC.urlString = urlString;
 }
+
 @end
