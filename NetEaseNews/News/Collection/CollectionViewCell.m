@@ -12,6 +12,7 @@
 @interface CollectionViewCell()
 @property (nonatomic, strong) SingleNewsTableViewController *newsVC;
 @end
+
 @implementation CollectionViewCell
 
 - (void)awakeFromNib {

@@ -10,4 +10,5 @@
 @class SingleModel;
 @interface TitleCollectionBarCell : UICollectionViewCell
 @property (nonatomic, strong) SingleModel *model;
+@property (weak, nonatomic) IBOutlet UIButton *tNameBtn;
 @end

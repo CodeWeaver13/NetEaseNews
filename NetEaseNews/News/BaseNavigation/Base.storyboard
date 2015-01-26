@@ -89,7 +89,6 @@
                     <connections>
                         <outlet property="channelCollection" destination="OlL-83-iKi" id="qSB-pR-iGh"/>
                         <outlet property="channelLayout" destination="gyx-OU-ZF4" id="7EI-Mi-0Ud"/>
-                        <outlet property="collectionViewContain" destination="ME1-lf-GnL" id="Dau-vm-YkS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CeZ-Z4-sV9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -131,7 +130,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Llx-qE-0xR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="720" y="418"/>
+            <point key="canvasLocation" x="707" y="158"/>
         </scene>
     </scenes>
 </document>

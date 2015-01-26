@@ -83,6 +83,7 @@
 
 
 @property (nonatomic, copy) NSString *skipType;
+/** 新闻ID */
 @property (nonatomic, copy) NSString *docid;
 @property (nonatomic, copy) NSNumber *hasAD;
 @property (nonatomic, copy) NSNumber *priority;
@@ -104,9 +105,5 @@
 
 @property (nonatomic, copy) NSString *specialID;
 @property (nonatomic, strong) NSArray *specialextra;
-
-@property (nonatomic, assign) NSInteger titleTag;
-
-+ (instancetype)singleModelWithDict:(NSDictionary *)dict;
 
 @end

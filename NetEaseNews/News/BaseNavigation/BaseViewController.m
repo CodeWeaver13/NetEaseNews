@@ -13,11 +13,14 @@
 #import "BaseViewController.h"
 #import "ChannelModel.h"
 #import "SingleModel.h"
+#import "MJExtension.h"
+#import "NSObject+Extension.h"
+static UIButton *prevBtn;
+
 
 @interface BaseViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *channelCollection;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *channelLayout;
-@property (weak, nonatomic) IBOutlet UIView *collectionViewContain;
 @property (nonatomic, strong) NSArray *channelList;
 @end
 
@@ -26,8 +29,7 @@
 - (NSArray *)tList {
     if (_tList == nil) {
         NSMutableArray *arrayM = [NSMutableArray array];
-        NSArray *cArray = self.channelList;
-        for (ChannelModel *channel in cArray) {
+        for (ChannelModel *channel in self.channelList) {
             NSArray *tListArray = channel.tList;
             for (int i = 0; i < tListArray.count; i++) {
                 if ([tListArray[i] isKindOfClass:[SingleModel class]]) {
@@ -45,14 +47,7 @@
     if (_channelList == nil) {
         NSURL *url = [[NSBundle mainBundle] URLForResource:@"all.json" withExtension:nil];
         NSData *data = [NSData dataWithContentsOfURL:url];
-        NSError *error = nil;
-        NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        NSMutableArray *arrayM = [NSMutableArray array];
-        for (id obj in json) {
-            ChannelModel *channel = [ChannelModel channelModelWithDictionary:obj];
-            [arrayM addObject:channel];
-        }
-        _channelList = arrayM;
+        _channelList = [ChannelModel objectArrayWithJSONData:data];
     }
     return _channelList;
 }
@@ -66,6 +61,8 @@
     TitleCollectionBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL" forIndexPath:indexPath];
     SingleModel *single = self.tList[indexPath.item];
     cell.model = single;
+    cell.tNameBtn.tag = indexPath.item + 100;
+    [cell.tNameBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 
@@ -77,11 +74,7 @@
     return collViewSize;
 }
 
-//上下间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
-}
-//行间距
+// 行间距
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     return 10;
 }
@@ -93,6 +86,55 @@
     [self setupChannelLayout];
 
     [self.channelCollection registerClass:[TitleCollectionBarCell class] forCellWithReuseIdentifier:@"CELL"];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBtnWithNoti:) name:@"CollViewPageIndex" object:nil];
+}
+
+- (void)viewWillLayoutSubviews {
+    [super viewWillLayoutSubviews];
+    [self btnClickAndAni:(UIButton *)[self.channelCollection viewWithTag:100]];
+}
+
+#pragma mark - 按钮状态改变通知方法
+- (void)changeBtnWithNoti:(NSNotification *)noti {    NSInteger index = [noti.object integerValue];
+    NSLog(@"%ld", (long)index);
+    UIButton *btn = (UIButton *)[self.channelCollection viewWithTag:index + 100];
+    [self btnClickAndAni:btn];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index + 1 inSection:0];
+    if (index < (self.tList.count - 1)) {
+        [self.channelCollection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    }
+}
+
+#pragma mark - 按钮点击事件
+- (void)btnClick:(UIButton *)btn {
+    [self btnClickAndAni:btn];
+#pragma mark = 用通知传btn.tag
+    NSNumber *tag = [[NSNumber alloc] initWithInteger:btn.tag - 100];
+    NSLog(@"%@", tag);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"BaseViewBtnTag" object:tag];
+}
+
+#pragma mark - 按钮点击动画
+- (void)btnClickAndAni:(UIButton *)btn {
+    btn.selected = YES;
+    if (prevBtn && ![btn isEqual:prevBtn]) {
+        prevBtn.selected = NO;
+        [UIView animateWithDuration:0.2 animations:^{
+            prevBtn.transform = CGAffineTransformIdentity;
+        }];
+    }
+    prevBtn = btn;
+    [UIView animateWithDuration:0.1 animations:^{
+        btn.transform = CGAffineTransformMakeScale(0.5, 0.5);
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.2 animations:^{
+            btn.transform = CGAffineTransformMakeScale(1.4, 1.4);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                btn.transform = CGAffineTransformMakeScale(1.2, 1.2);
+            }];
+        }];
+    }];
 }
 
 /**
@@ -105,15 +147,16 @@
     
     self.channelCollection.showsHorizontalScrollIndicator = NO;
     self.channelCollection.showsVerticalScrollIndicator = NO;
-    
 }
 /**
  *  设置NavigationBar
  */
 - (void)setupNavigation {
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = NO;
+    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_navigation_background"] forBarMetrics:UIBarMetricsDefault];
     
     UIImage *headerImage = [UIImage imageNamed:@"home_header_logo"];
@@ -129,12 +172,16 @@
     leftImage = [leftImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [leftBtn setImage:leftImage forState:UIControlStateNormal];
     [leftBtn setImage:[UIImage imageNamed:@"night_top_navigation_menuicon_highlighted"] forState:UIControlStateHighlighted];
-    leftBtn.bounds = CGRectMake(-5, 0, 35, 35);
+    [leftBtn sizeToFit];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
 - (void)didReceiveMemoryWarning {
     [[SDImageCache alloc] clearMemory];
     NSLog(@"我来了");
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"CollViewPageIndex" object:nil];
 }
 @end

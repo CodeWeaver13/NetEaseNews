@@ -16,8 +16,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *newsImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *newsImageView1;
 @property (weak, nonatomic) IBOutlet UIImageView *newsImageView2;
-
 @end
+
 @implementation SingleNewsCell
 
 /**

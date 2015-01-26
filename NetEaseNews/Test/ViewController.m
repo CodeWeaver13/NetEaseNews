@@ -49,7 +49,7 @@
         [dataList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSLog(@"==== %tu", idx);
             
-            [arrayM addObject:[SingleModel singleModelWithDict:obj]];
+//            [arrayM addObject:[SingleModel singleModelWithDict:obj]];
         }];
         self.newsList = arrayM;
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

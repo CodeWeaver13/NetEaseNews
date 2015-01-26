@@ -10,6 +10,10 @@
 #import "SingleModel.h"
 #import "SingleNewsCell.h"
 #import "SingleNewsHeaderCell.h"
+#import "DetailNavigationController.h"
+#import "DetailViewController.h"
+#import "MJExtension.h"
+#import "NSObject+Extension.h"
 #import "WSYNetworkTools.h"
 @interface SingleNewsTableViewController ()
 @property (nonatomic, strong) NSArray *newsList;
@@ -21,17 +25,9 @@
 }
 
 - (void)setUrlString:(NSString *)urlString {
-    
     [[[WSYNetworkTools sharedNetworkTools] GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
-        
         NSString *key = [responseObject.keyEnumerator nextObject];
-        NSArray *dataList = responseObject[key];
-        
-        NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:dataList.count];
-        [dataList enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [arrayM addObject:[SingleModel singleModelWithDict:obj]];
-        }];
-        self.newsList = arrayM;
+        self.newsList = [SingleModel objectArrayWithKeyValuesArray:responseObject[key]];
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"%@", error);
@@ -64,6 +60,21 @@
     } else {
         return [SingleNewsCell rowHeightWithModel:news];
     }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"%ld", (long)indexPath.row);
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"DetailView" bundle:nil];
+    
+    DetailViewController *newsDetails = sb.instantiateInitialViewController;
+    newsDetails.singleModel = self.newsList[indexPath.row];
+    DetailNavigationController *dNavi = [[DetailNavigationController alloc] initWithRootViewController:newsDetails];
+    self.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+    [self.view.window.rootViewController presentViewController:dNavi animated:YES completion:nil];
+    
+//    UINavigationController *navi = (UINavigationController *)self.view.window.rootViewController;
+//    [navi pushViewController:newsDetails animated:YES];
 }
 
 @end

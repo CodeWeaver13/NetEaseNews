@@ -12,6 +12,4 @@
 @property (nonatomic, copy) NSString *cName;
 @property (nonatomic, copy) NSString *cid;
 @property (nonatomic, strong) NSArray *tList;
-
-+ (instancetype)channelModelWithDictionary:(NSDictionary *)dict;
 @end

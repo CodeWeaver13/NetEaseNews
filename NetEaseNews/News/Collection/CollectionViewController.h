@@ -9,8 +9,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^myCollBlock)(NSIndexPath *indexPath);
 @interface CollectionViewController : UICollectionViewController
-@property (nonatomic, copy) myCollBlock collBlock;
 
 @end

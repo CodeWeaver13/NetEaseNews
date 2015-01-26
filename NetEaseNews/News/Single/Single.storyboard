@@ -221,6 +221,7 @@
                             <outlet property="delegate" destination="FLm-gl-QLP" id="eZD-Mb-vKw"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" id="LDu-NS-s3v"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uiy-PG-jiS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
