@@ -13,6 +13,7 @@
 #import "WSYNetworkTools.h"
 #import "MJExtension.h"
 #import "NSObject+Extension.h"
+#import "StatusBarHUD.h"
 
 @interface DetailViewController () <UIWebViewDelegate>
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -32,6 +33,7 @@
 //        self.detail = [DetailModel detailWithDict:responseObject[self.singleModel.docid]];
         self.detail = [DetailModel objectWithKeyValues:responseObject[self.singleModel.docid]];
         [self showNewsDetail];
+//        NSLog(@"%@", responseObject);
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
@@ -72,10 +74,12 @@
     NSMutableString *body = [NSMutableString string];
     
     // 拼接标题
-    [body appendFormat:@"<div class=\"title\">%@</div>", self.detail.title];
+    [body appendFormat:@"<div id=\"title\">%@</div>", self.detail.title];
     
     // 拼接时间
-    [body appendFormat:@"<div class=\"time\">%@</div>", self.detail.ptime];
+    [body appendFormat:@"<div id=\"subtitle\">%@ %@</div><br/>", self.detail.source, [self.detail.ptime substringWithRange:NSMakeRange(6, 10)]];
+    
+//    [body appendFormat:@"<span id=\"subtitle\">%@</span>", self.detail.ptime];
     
     // 拼接图片
     [body appendString:self.detail.body];
@@ -95,11 +99,11 @@
         }
         
         NSString *onload = @"this.onclick = function() {"
-        "   window.location.href = 'hm:src=' + this.src;"
+        "   window.location.href = 'hm:saveImageToAlbum:&' + this.src;"
         "};";
         
         [imgHtml appendFormat:@"<img onload=\"%@\" width=\"%d\" height=\"%d\" src=\"%@\">", onload, width, height, img.src];
-        [imgHtml appendString:@"</div>"];
+        [imgHtml appendString:@"</div><br/>"];
         
         // 将img.ref替换为img标签的内容
         [body replaceOccurrencesOfString:img.ref withString:imgHtml options:NSCaseInsensitiveSearch range:NSMakeRange(0, body.length)];
@@ -126,11 +130,8 @@
         
         // 保存图片
         UIImage *image = [UIImage imageWithData:imgData];
-        UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        
-        //        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:src] options:SDWebImageRetryFailed progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-        //            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-        //        }];
+        // 调用HUD
+        UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:withError:info:), nil);
     }]];
     
     [alert addAction:[UIAlertAction actionWithTitle:@"否" style:UIAlertActionStyleCancel handler:nil]];
@@ -150,15 +151,38 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString *url = request.URL.absoluteString;
-    NSRange range = [url rangeOfString:@"hm:src="];
+    NSRange range = [url rangeOfString:@"hm:"];
     if (range.location != NSNotFound) {
         NSUInteger loc = range.location + range.length;
-        NSString *src = [url substringFromIndex:loc];
-        // 保存图片
-        [self saveImageToAlbum:src];
+        NSString *path = [url substringFromIndex:loc];
+        // 获得方法和参数
+        NSArray *methodNameAndParam = [path componentsSeparatedByString:@"&"];
+        // 方法名
+        NSString *methodName = [methodNameAndParam firstObject];
+        // 调用方法
+        SEL selector = NSSelectorFromString(methodName);
+        if ([self respondsToSelector:selector]) { // 判断方法的目的： 防止因为方法不存在而报错
+            NSMutableArray *params = nil;
+            if (methodNameAndParam.count > 1) { // 方法有参数
+                params = [NSMutableArray arrayWithArray:methodNameAndParam];
+                // 从数组中去掉方法名
+                [params removeObjectAtIndex:0];
+            }
+            [self performSelector:selector withObjects:params];
+        }
         return NO;
     }
     return YES;
+}
+
+- (void)image:(UIImage *)image withError:(NSError *)error info:(void *)contextInfo;
+{
+    // 提醒用户图片保存成功还是失败
+    if (error) { // 图片保存失败
+        [StatusBarHUD showError:@"图片保存失败"];
+    } else { // 图片保存成功
+        [StatusBarHUD showSuccess:@"图片保存成功"];
+    }
 }
 
 - (void)setupNavigation {

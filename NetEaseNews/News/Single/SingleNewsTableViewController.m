@@ -17,7 +17,6 @@
 #import "MJRefresh.h"
 #import "WSYNetworkTools.h"
 
-
 @interface SingleNewsTableViewController ()
 @property (nonatomic, strong) NSMutableArray *newsList;
 @property (nonatomic, strong) NSString *currentUrl;
@@ -29,6 +28,7 @@
     [self setupRefresh];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"BaseViewBtnTag" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"CollViewPageIndex" object:nil];
+    self.tableView.showsVerticalScrollIndicator = NO;
 }
 
 /**

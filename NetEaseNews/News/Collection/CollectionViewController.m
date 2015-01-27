@@ -5,7 +5,6 @@
 //  Created by wangshiyu13 on 15/1/22.
 //  Copyright (c) 2015年 wangshiyu13. All rights reserved.
 //
-#define kNaviH 94
 #import "CollectionViewController.h"
 #import "CollectionViewCell.h"
 #import "BaseViewController.h"
@@ -19,7 +18,6 @@
 @implementation CollectionViewController
 
 - (void)changePageWithNoti:(NSNotification *)noti {
-    NSLog(@"%@", noti.object);
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:[noti.object intValue] inSection:0];
     [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:NO];
 }
@@ -40,16 +38,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    // 设置布局
-    self.layout.itemSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height - kNaviH);
     self.layout.minimumInteritemSpacing = 0.0;
     self.layout.minimumLineSpacing = 0.0;
     self.layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-
+    
     // scrollView的属性
     self.collectionView.pagingEnabled = YES;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
+    self.collectionView.bounces = NO;
 }
 
 - (void)viewDidLoad {
@@ -67,6 +64,10 @@
     CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"NewsTableCell" forIndexPath:indexPath];
     cell.urlString = self.urlList[indexPath.item];
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    return self.collectionView.bounds.size;
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {

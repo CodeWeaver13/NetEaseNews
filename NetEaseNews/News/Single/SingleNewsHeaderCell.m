@@ -16,20 +16,19 @@
 @end
 @implementation SingleNewsHeaderCell
 
-- (void)awakeFromNib {
-    // Initialization code HeaderCell
-}
-
 + (CGFloat)rowHeight {
     return 230;
 }
 
 - (void)setNewsModel:(SingleModel *)newsModel {
     _newsModel = newsModel;
-    
     self.titleLabel.text = newsModel.title;
     
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]placeholderImage:nil options:SDWebImageContinueInBackground];
+    self.headerImageView.alpha = 0.1;
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc] placeholderImage:nil options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.headerImageView.alpha = 1;
+        }];
+    }];
 }
-
 @end

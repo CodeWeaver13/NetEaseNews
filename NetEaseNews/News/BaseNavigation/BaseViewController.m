@@ -17,7 +17,6 @@
 #import "NSObject+Extension.h"
 static UIButton *prevBtn;
 
-
 @interface BaseViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *channelCollection;
 @property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *channelLayout;
@@ -79,6 +78,7 @@ static UIButton *prevBtn;
     return 10;
 }
 
+
 #pragma mark - 生命周期方法
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -95,8 +95,8 @@ static UIButton *prevBtn;
 }
 
 #pragma mark - 按钮状态改变通知方法
-- (void)changeBtnWithNoti:(NSNotification *)noti {    NSInteger index = [noti.object integerValue];
-    NSLog(@"%ld", (long)index);
+- (void)changeBtnWithNoti:(NSNotification *)noti {
+    NSInteger index = [noti.object integerValue];
     UIButton *btn = (UIButton *)[self.channelCollection viewWithTag:index + 999];
     [self btnClickAndAni:btn];
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index + 1 inSection:0];
@@ -110,7 +110,6 @@ static UIButton *prevBtn;
     [self btnClickAndAni:btn];
 #pragma mark = 用通知传btn.tag
     NSNumber *tag = [[NSNumber alloc] initWithInteger:btn.tag - 999];
-    NSLog(@"%@", tag);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"BaseViewBtnTag" object:tag];
 }
 

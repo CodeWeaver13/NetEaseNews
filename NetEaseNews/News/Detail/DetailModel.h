@@ -17,4 +17,42 @@
 @property (nonatomic, copy) NSString *body;
 /** 新闻配图(希望这个数组中以后放HMNewsDetailImg模型) */
 @property (nonatomic, strong) NSArray *img;
+// 来源
+@property (nonatomic, copy) NSString *source;
+// apps
+@property (nonatomic, strong) NSArray *apps;
+// link
+@property (nonatomic, strong) NSArray *link;
+// tid
+@property (nonatomic, copy) NSString *tid;
+// boboList
+@property (nonatomic, strong) NSArray *boboList;
+// topiclist_news
+@property (nonatomic, strong) NSArray *topiclist_news;
+
+@property (nonatomic, assign) BOOL picnews;
+
+@property (nonatomic, copy) NSString *template;
+
+@property (nonatomic, strong) NSArray *relative;
+
+@property (nonatomic, copy) NSNumber *replyCount;
+
+@property (nonatomic, copy) NSString *source_url;
+
+@property (nonatomic, copy) NSString *docid;
+
+@property (nonatomic, copy) NSString *replyBoard;
+
+@property (nonatomic, assign) BOOL hasNext;
+
+@property (nonatomic, strong) NSArray *topiclist;
+
+@property (nonatomic, strong) NSArray *votes;
+
+@property (nonatomic, copy) NSString *voicecomment;
+
+@property (nonatomic, strong) NSArray *users;
+
+@property (nonatomic, copy) NSString *digest;
 @end

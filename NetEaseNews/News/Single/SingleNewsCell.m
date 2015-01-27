@@ -64,12 +64,27 @@
         self.replyLabel.text = replyStr;
     }
 
-    [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc]placeholderImage:nil options:SDWebImageLowPriority];
+    self.newsImageView.alpha = 0.1;
+    [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc] placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [UIView animateWithDuration:0.5 animations:^{
+            self.newsImageView.alpha = 1;
+        }];
+    }];
     
     // 多图
     if (newsModel.imgextra.count == 2) {
-        [self.newsImageView1 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[0][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority];
-        [self.newsImageView2 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[1][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority];
+        self.newsImageView1.alpha = 0.1;
+        [self.newsImageView1 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[0][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.newsImageView1.alpha = 1;
+            }];
+        }];
+        self.newsImageView2.alpha = 0.1;
+        [self.newsImageView2 sd_setImageWithURL:[NSURL URLWithString:newsModel.imgextra[1][@"imgsrc"]]placeholderImage:nil options:SDWebImageLowPriority completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            [UIView animateWithDuration:0.5 animations:^{
+                self.newsImageView2.alpha = 1;
+            }];
+        }];
     }
 }
 @end

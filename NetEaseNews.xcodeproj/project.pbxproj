@@ -68,6 +68,8 @@
 		CF9463F81A76980000519D69 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9463EF1A76980000519D69 /* UIScrollView+MJRefresh.m */; };
 		CF9463F91A76980000519D69 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9463F11A76980000519D69 /* UIView+MJExtension.m */; };
 		CFA3FEB51A73395D0053BB51 /* TitleCollectionBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */; };
+		CFB160C31A7741BC00B9C6EA /* StatusBarHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = CFB160C01A7741BC00B9C6EA /* StatusBarHUD.bundle */; };
+		CFB160C41A7741BC00B9C6EA /* StatusBarHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB160C21A7741BC00B9C6EA /* StatusBarHUD.m */; };
 		CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFC829D21A6F92BA003DC056 /* Images.xcassets */; };
 		CFC829E21A6F92BA003DC056 /* NetEaseNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC829E11A6F92BA003DC056 /* NetEaseNewsTests.m */; };
 		CFC82A0C1A6F9308003DC056 /* WSYNetworkTools.m in Sources */ = {isa = PBXBuildFile; fileRef = CFC82A0B1A6F9308003DC056 /* WSYNetworkTools.m */; };
@@ -211,6 +213,9 @@
 		CF9463F11A76980000519D69 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
 		CFA3FEB31A73395D0053BB51 /* TitleCollectionBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleCollectionBarCell.h; sourceTree = "<group>"; };
 		CFA3FEB41A73395D0053BB51 /* TitleCollectionBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleCollectionBarCell.m; sourceTree = "<group>"; };
+		CFB160C01A7741BC00B9C6EA /* StatusBarHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = StatusBarHUD.bundle; sourceTree = "<group>"; };
+		CFB160C11A7741BC00B9C6EA /* StatusBarHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatusBarHUD.h; sourceTree = "<group>"; };
+		CFB160C21A7741BC00B9C6EA /* StatusBarHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatusBarHUD.m; sourceTree = "<group>"; };
 		CFC829C21A6F92BA003DC056 /* NetEaseNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetEaseNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFC829C61A6F92BA003DC056 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFC829D21A6F92BA003DC056 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -454,6 +459,16 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
+		CFB160BF1A7741BC00B9C6EA /* StatusBarHUD */ = {
+			isa = PBXGroup;
+			children = (
+				CFB160C01A7741BC00B9C6EA /* StatusBarHUD.bundle */,
+				CFB160C11A7741BC00B9C6EA /* StatusBarHUD.h */,
+				CFB160C21A7741BC00B9C6EA /* StatusBarHUD.m */,
+			);
+			path = StatusBarHUD;
+			sourceTree = "<group>";
+		};
 		CFC829B91A6F92BA003DC056 = {
 			isa = PBXGroup;
 			children = (
@@ -531,6 +546,7 @@
 		CFC829EC1A6F92E8003DC056 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				CFB160BF1A7741BC00B9C6EA /* StatusBarHUD */,
 				CF9463E11A76980000519D69 /* MJRefresh */,
 				CF80A90D1A75CB3200155A5C /* MJExtension */,
 				CF3A01DB1A70EFA80067D07D /* AFNetworking */,
@@ -650,6 +666,7 @@
 				CFC829D31A6F92BA003DC056 /* Images.xcassets in Resources */,
 				CF9463F21A76980000519D69 /* MJRefresh.bundle in Resources */,
 				CFF67B3F1A72CA260000D151 /* all.json in Resources */,
+				CFB160C31A7741BC00B9C6EA /* StatusBarHUD.bundle in Resources */,
 				CF80A92D1A75DACB00155A5C /* Detail.css in Resources */,
 				CFF3A53D1A758306007725C5 /* TitleCell.xib in Resources */,
 			);
@@ -702,6 +719,7 @@
 				CF3A01F71A70EFA80067D07D /* AFURLSessionManager.m in Sources */,
 				CF9463F31A76980000519D69 /* MJRefreshBaseView.m in Sources */,
 				CF3A01BE1A70CCA50067D07D /* UIImageView+HighlightedWebCache.m in Sources */,
+				CFB160C41A7741BC00B9C6EA /* StatusBarHUD.m in Sources */,
 				CF3A01F31A70EFA80067D07D /* AFSecurityPolicy.m in Sources */,
 				CF3A01B61A70CCA50067D07D /* SDWebImageDownloader.m in Sources */,
 				CF3A01B41A70CCA50067D07D /* SDWebImageCompat.m in Sources */,
