@@ -173,7 +173,6 @@
     [self.labelsScrollView setContentOffset:offset animated:YES];
     
     SingleNewsTableViewController *vc = self.childViewControllers[index];
-    // 如果子控制器的view已经在上面，就直接返回
     if (vc.view.superview) return;
     
     // 添加表格视图
@@ -195,9 +194,7 @@
     NSUInteger twoIndex = oneIndex + 1;
     CGFloat twoPercent = value - oneIndex;
     CGFloat onePercent = 1 - twoPercent;
-    
     [label adjust:onePercent];
-    
     if (twoIndex < self.labelsScrollView.subviews.count) {
         TitleLabel *twoLabel = self.labelsScrollView.subviews[twoIndex];
         [twoLabel adjust:twoPercent];

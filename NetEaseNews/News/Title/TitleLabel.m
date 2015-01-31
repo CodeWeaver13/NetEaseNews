@@ -47,8 +47,6 @@ static const int SelectedBlue = 0;
 }
 
 - (void)setSelected:(BOOL)selected {
-//    self.font = selected ? SelectedFont : NormalFont;
-    
     if (selected) {
         self.red = SelectedRed;
         self.green = SelectedGreen;
@@ -66,10 +64,7 @@ static const int SelectedBlue = 0;
     // 调整文字大小
     CGFloat size = (SelectSize / NormalSize) - 1;
     CGFloat value = size * percent;
-    NSLog(@"value ---- %f", value);
     self.transform = CGAffineTransformMakeScale(1 + value, 1 + value);
-
-//    self.transform = CGAffineTransformMakeScale((SelectSize / NormalSize), (SelectSize / NormalSize));
     
     // 调整颜色
     self.red = NormalRed + (SelectedRed - NormalRed) * percent;
