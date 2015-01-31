@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 @interface BaseViewController : UIViewController
-@property (nonatomic, strong) NSArray *tList;
+
 @end

@@ -17,7 +17,7 @@
 @implementation SingleNewsHeaderCell
 
 + (CGFloat)rowHeight {
-    return 230;
+    return 226;
 }
 
 - (void)setNewsModel:(SingleModel *)newsModel {
@@ -25,7 +25,7 @@
     self.titleLabel.text = newsModel.title;
     
     self.headerImageView.alpha = 0.1;
-    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc] placeholderImage:nil options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+    [self.headerImageView sd_setImageWithURL:[NSURL URLWithString:newsModel.imgsrc] placeholderImage:[UIImage imageNamed:@"recommend_image_bg"] options:SDWebImageProgressiveDownload completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         [UIView animateWithDuration:0.5 animations:^{
             self.headerImageView.alpha = 1;
         }];

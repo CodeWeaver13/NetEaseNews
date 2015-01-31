@@ -26,8 +26,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupRefresh];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"BaseViewBtnTag" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupRefresh) name:@"CollViewPageIndex" object:nil];
     self.tableView.showsVerticalScrollIndicator = NO;
 }
 

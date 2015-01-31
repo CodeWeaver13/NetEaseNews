@@ -5,25 +5,31 @@
 //  Created by wangshiyu13 on 15/1/23.
 //  Copyright (c) 2015年 wangshiyu13. All rights reserved.
 //
-#import "SDImageCache.h"
-#import "AFURLResponseSerialization.h"
-#import "NSString+StringExt.h"
-
-#import "TitleCollectionBarCell.h"
-#import "BaseViewController.h"
-#import "ChannelModel.h"
-#import "SingleModel.h"
+#import "WSYNetworkTools.h"
 #import "MJExtension.h"
 #import "NSObject+Extension.h"
-static UIButton *prevBtn;
+#import "NSString+StringExt.h"
+#import "UIView+Extension.h"
 
-@interface BaseViewController () <UICollectionViewDataSource, UICollectionViewDelegate>
-@property (weak, nonatomic) IBOutlet UICollectionView *channelCollection;
-@property (weak, nonatomic) IBOutlet UICollectionViewFlowLayout *channelLayout;
+#import "SingleModel.h"
+#import "ChannelModel.h"
+
+#import "BaseViewController.h"
+#import "TitleLabel.h"
+#import "SingleNewsTableViewController.h"
+@interface BaseViewController () <UIScrollViewDelegate>
+@property (nonatomic, weak) TitleLabel *titleLbl;
+/** 存放标签 */
+@property (weak, nonatomic) IBOutlet UIScrollView *labelsScrollView;
+/** 存放具体的子控制器 */
+@property (weak, nonatomic) IBOutlet UIScrollView *contentScrollView;
+@property (nonatomic, strong) NSArray *tList;
 @property (nonatomic, strong) NSArray *channelList;
+@property (nonatomic, strong) NSArray *urlList;
 @end
 
 @implementation BaseViewController
+
 #pragma mark - 懒加载模型数组
 - (NSArray *)tList {
     if (_tList == nil) {
@@ -44,118 +50,173 @@ static UIButton *prevBtn;
 
 - (NSArray *)channelList {
     if (_channelList == nil) {
-        NSURL *url = [[NSBundle mainBundle] URLForResource:@"all.json" withExtension:nil];
-        NSData *data = [NSData dataWithContentsOfURL:url];
-        _channelList = [ChannelModel objectArrayWithJSONData:data];
+        NSArray *localArray = [ChannelModel objectArrayWithJSONData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"all.json" withExtension:nil]]];
+#warning mark - 判断未完成
+        NSArray *netArray = [ChannelModel objectArrayWithJSONData:[NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://c.m.163.com/nc/topicset/ios/v4/subscribe/news/all.html"]] returningResponse:nil error:nil]];
+        
+        if ([localArray isEqualToArray:netArray]) {
+            _channelList = localArray;
+        } else {
+            _channelList = netArray;
+        }
     }
     return _channelList;
 }
 
-#pragma mark － 导航标题collection数据元方法
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.tList.count;
+- (NSArray *)urlList {
+    if (_urlList == nil) {
+        NSArray *array = self.tList;
+        NSMutableArray *arrayM = [NSMutableArray arrayWithCapacity:self.tList.count];
+        for (SingleModel *single in array) {
+            NSString *str = [NSString stringWithFormat:@"/nc/article/%@/%@/0-20.html", (single.headLine ? @"headline" : @"list"), single.tid];
+            [arrayM addObject:str];
+        }
+        _urlList = arrayM;
+    }
+    return _urlList;
 }
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    TitleCollectionBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CELL" forIndexPath:indexPath];
-    SingleModel *single = self.tList[indexPath.item];
-    cell.model = single;
-    cell.tNameBtn.tag = indexPath.item + 999;
-    [cell.tNameBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    SingleModel *single = self.tList[indexPath.item];
-    NSString *tname = single.tname;
-    CGSize textSize = [tname sizeWithFont:[UIFont systemFontOfSize:16] maxSize:CGSizeMake(MAXFLOAT, 35)];
-    CGSize collViewSize = CGSizeMake(textSize.width + 14, 30);
-    return collViewSize;
-}
-
-// 行间距
-- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return 10;
-}
-
 
 #pragma mark - 生命周期方法
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    // scrollView的属性
+    self.contentScrollView.pagingEnabled = YES;
+    self.contentScrollView.showsHorizontalScrollIndicator = NO;
+    self.contentScrollView.showsVerticalScrollIndicator = NO;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupChannelLayout];
-
-    [self.channelCollection registerClass:[TitleCollectionBarCell class] forCellWithReuseIdentifier:@"CELL"];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeBtnWithNoti:) name:@"CollViewPageIndex" object:nil];
-}
-
-- (void)viewWillLayoutSubviews {
-    [super viewWillLayoutSubviews];
-    [self btnClickAndAni:(UIButton *)[self.channelCollection viewWithTag:999]];
-}
-
-#pragma mark - 按钮状态改变通知方法
-- (void)changeBtnWithNoti:(NSNotification *)noti {
-    NSInteger index = [noti.object integerValue];
-    UIButton *btn = (UIButton *)[self.channelCollection viewWithTag:index + 999];
-    [self btnClickAndAni:btn];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index + 1 inSection:0];
-    if (index < (self.tList.count - 1)) {
-        [self.channelCollection scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    }
-}
-
-#pragma mark - 按钮点击事件
-- (void)btnClick:(UIButton *)btn {
-    [self btnClickAndAni:btn];
-#pragma mark = 用通知传btn.tag
-    NSNumber *tag = [[NSNumber alloc] initWithInteger:btn.tag - 999];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"BaseViewBtnTag" object:tag];
-}
-
-#pragma mark - 按钮点击动画
-- (void)btnClickAndAni:(UIButton *)btn {
-    btn.selected = YES;
-    if (prevBtn && ![btn isEqual:prevBtn]) {
-        prevBtn.selected = NO;
-        [UIView animateWithDuration:0.2 animations:^{
-            prevBtn.transform = CGAffineTransformIdentity;
-        }];
-    }
-    prevBtn = btn;
-    [UIView animateWithDuration:0.1 animations:^{
-        btn.transform = CGAffineTransformMakeScale(0.5, 0.5);
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^{
-            btn.transform = CGAffineTransformMakeScale(1.4, 1.4);
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.2 animations:^{
-                btn.transform = CGAffineTransformMakeScale(1.2, 1.2);
-            }];
-        }];
-    }];
-}
-
-/**
- *  设置ChannelCollectionBar的Layout
- */
-- (void)setupChannelLayout {
-    self.channelLayout.minimumInteritemSpacing = 0.0;
-    self.channelLayout.minimumLineSpacing = 0.0;
-    self.channelLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    [self setupChildViewController];
+    [self setupTitle];
     
-    self.channelCollection.showsHorizontalScrollIndicator = NO;
-    self.channelCollection.showsVerticalScrollIndicator = NO;
+    NSLog(@"%lu", (unsigned long)self.childViewControllers.count);
+    
+    SingleNewsTableViewController *firstVc = [self.childViewControllers firstObject];
+    firstVc.view.frame = self.contentScrollView.bounds;
+    [self.contentScrollView addSubview:firstVc.view];
+    
+    CGFloat contentsContentW = self.childViewControllers.count * [UIScreen mainScreen].bounds.size.width;
+    self.contentScrollView.contentSize = CGSizeMake(contentsContentW, 0);
 }
+
+#pragma mark - 添加子控制器
+- (void)setupChildViewController {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Single" bundle:nil];
+    for (int i = 0; i < self.tList.count; i++) {
+        SingleModel *singleModel = self.tList[i];
+        SingleNewsTableViewController *single = sb.instantiateInitialViewController;
+        single.title = singleModel.tname;
+        single.urlString = self.urlList[i];
+        [self addChildViewController:single];
+    }
+}
+
+#pragma mark - 添加标题栏
+- (void)setupTitle {
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    CGFloat viewW = 0;
+    CGFloat titleY = 0;
+    CGFloat titleH = 30;
+    NSInteger count = self.childViewControllers.count;
+    for (NSInteger i = 0; i < count; i++) {
+        UIViewController *childVc = self.childViewControllers[i];
+        
+        // 添加标签
+        TitleLabel *titleLbl = [[TitleLabel alloc] init];
+        titleLbl.tag = i + 100;
+        titleLbl.text = childVc.title;
+        CGFloat titleW = [childVc.title sizeWithFont:[UIFont systemFontOfSize:20] maxSize:CGSizeMake(100, 30)].width;
+        titleLbl.frame = CGRectMake(viewW, titleY, titleW, titleH);
+        titleLbl.textAlignment = NSTextAlignmentCenter;
+        [titleLbl addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelClick:)]];
+        [self.labelsScrollView addSubview:titleLbl];
+        viewW += (titleW + 30);
+    }
+    
+    // 设置内容大小
+    self.labelsScrollView.contentSize = CGSizeMake(viewW, 0);
+    self.labelsScrollView.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.8];
+}
+
+#pragma mark - 私有方法 监听按钮点击
+- (void)labelClick:(UITapGestureRecognizer *)recognizer {
+    TitleLabel *label = (TitleLabel *)recognizer.view;
+    self.titleLbl.selected = NO;
+    label.selected = YES;
+    self.titleLbl = label;
+    CGFloat offsetX = (label.tag - 100) * self.contentScrollView.frame.size.width;
+    CGPoint offset = CGPointMake(offsetX, self.contentScrollView.contentOffset.y);
+    [self.contentScrollView setContentOffset:offset animated:YES];
+}
+
+#pragma mark - <UIScrollViewDelegate>
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
+    // 获得当前索引
+    NSUInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
+    
+    // 滚动标题栏
+    TitleLabel *label = self.labelsScrollView.subviews[index];
+    CGFloat titlesW = self.labelsScrollView.frame.size.width;
+    CGFloat offsetX = label.center.x - titlesW * 0.4;
+    
+    // 最大的偏移量
+    CGFloat maxOffsetX = self.labelsScrollView.contentSize.width - titlesW;
+    if (offsetX < 0) {
+        offsetX = 0;
+    } else if (offsetX > maxOffsetX) {
+        offsetX = maxOffsetX;
+    }
+    CGPoint offset = CGPointMake(offsetX, self.labelsScrollView.contentOffset.y);
+    [self.labelsScrollView setContentOffset:offset animated:YES];
+    
+    SingleNewsTableViewController *vc = self.childViewControllers[index];
+    // 如果子控制器的view已经在上面，就直接返回
+    if (vc.view.superview) return;
+    
+    // 添加表格视图
+    CGFloat vcW = scrollView.frame.size.width;
+    CGFloat vcH = scrollView.frame.size.height;
+    CGFloat vcX = index * vcW;
+    CGFloat vcY = 0;
+    vc.view.frame = CGRectMake(vcX, vcY, vcW, vcH);
+    [scrollView addSubview:vc.view];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    NSInteger index = scrollView.contentOffset.x / scrollView.frame.size.width;
+    TitleLabel *label = self.labelsScrollView.subviews[index];
+    
+    // 标题栏的动画效果
+    CGFloat value = scrollView.contentOffset.x / scrollView.frame.size.width;
+    NSUInteger oneIndex = (NSUInteger)value;
+    NSUInteger twoIndex = oneIndex + 1;
+    CGFloat twoPercent = value - oneIndex;
+    CGFloat onePercent = 1 - twoPercent;
+    
+    [label adjust:onePercent];
+    
+    if (twoIndex < self.labelsScrollView.subviews.count) {
+        TitleLabel *twoLabel = self.labelsScrollView.subviews[twoIndex];
+        [twoLabel adjust:twoPercent];
+    }
+}
+
 /**
- *  设置NavigationBar
+ *  当scrollView减速完毕时调用
  */
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self scrollViewDidEndScrollingAnimation:scrollView];
+}
+
+#pragma mark - 添加导航栏
 - (void)setupNavigation {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.backgroundColor = [UIColor blackColor];
     self.navigationController.navigationBar.translucent = NO;
-    
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_navigation_background"] forBarMetrics:UIBarMetricsDefault];
     
     UIImage *headerImage = [UIImage imageNamed:@"home_header_logo"];
@@ -175,12 +236,4 @@ static UIButton *prevBtn;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
 }
 
-- (void)didReceiveMemoryWarning {
-    [[SDImageCache alloc] clearMemory];
-    NSLog(@"我来了");
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 @end
