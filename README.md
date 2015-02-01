@@ -1,9 +1,7 @@
 # NetEaseNews
 高仿网易新闻
-````
-截图
+##截图
 
-````
 ![Alt text](http://h.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=906f2218cd3d70cf48faa60dc8e7a03d/54fbb2fb43166d22a01b65b5422309f79052d2a7.jpg)
 ![Alt text](http://h.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=26fffeb0c911728b342d8022f8c7b2f3/08f790529822720efb0c93db7fcb0a46f31fabd5.jpg)
 ![Alt text](http://g.picphotos.baidu.com/album/s%3D900%3Bq%3D90/sign=3dbfb9129645d688a702bea494f90c23/f31fbe096b63f624952249228344ebf81a4ca390.jpg)
