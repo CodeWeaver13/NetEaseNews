@@ -50,7 +50,7 @@
 
 - (NSArray *)channelList {
     if (_channelList == nil) {
-        NSArray *localArray = [ChannelModel objectArrayWithJSONData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"all.json" withExtension:nil]]];
+        NSArray *localArray = [ChannelModel objectArrayWithJSONData:[NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"topic_news.json" withExtension:nil]]];
 #warning mark - 判断未完成
         NSArray *netArray = [ChannelModel objectArrayWithJSONData:[NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://c.m.163.com/nc/topicset/ios/v4/subscribe/news/all.html"]] returningResponse:nil error:nil]];
         
@@ -97,7 +97,10 @@
     SingleNewsTableViewController *firstVc = [self.childViewControllers firstObject];
     firstVc.view.frame = self.contentScrollView.bounds;
     [self.contentScrollView addSubview:firstVc.view];
-    
+    TitleLabel *titleLabel = self.labelsScrollView.subviews[0];
+    if ([titleLabel respondsToSelector:@selector(setChange:)]) {
+        titleLabel.change = 1.0;
+    }
     CGFloat contentsContentW = self.childViewControllers.count * [UIScreen mainScreen].bounds.size.width;
     self.contentScrollView.contentSize = CGSizeMake(contentsContentW, 0);
 }
@@ -117,7 +120,7 @@
 #pragma mark - 添加标题栏
 - (void)setupTitle {
     self.automaticallyAdjustsScrollViewInsets = NO;
-    CGFloat viewW = 0;
+    CGFloat viewW = 10;
     CGFloat titleY = 0;
     CGFloat titleH = 30;
     NSInteger count = self.childViewControllers.count;
@@ -144,8 +147,8 @@
 #pragma mark - 私有方法 监听按钮点击
 - (void)labelClick:(UITapGestureRecognizer *)recognizer {
     TitleLabel *label = (TitleLabel *)recognizer.view;
-    self.titleLbl.selected = NO;
-    label.selected = YES;
+    self.titleLbl.change = 0.0;
+    label.change = 1.0;
     self.titleLbl = label;
     CGFloat offsetX = (label.tag - 100) * self.contentScrollView.frame.size.width;
     CGPoint offset = CGPointMake(offsetX, self.contentScrollView.contentOffset.y);
@@ -189,16 +192,16 @@
     TitleLabel *label = self.labelsScrollView.subviews[index];
     
     // 标题栏的动画效果
-    CGFloat value = scrollView.contentOffset.x / scrollView.frame.size.width;
+    CGFloat value = ABS(scrollView.contentOffset.x / scrollView.frame.size.width);
     NSUInteger oneIndex = (NSUInteger)value;
     NSUInteger twoIndex = oneIndex + 1;
     CGFloat twoPercent = value - oneIndex;
     CGFloat onePercent = 1 - twoPercent;
-    [label adjust:onePercent];
     if (twoIndex < self.labelsScrollView.subviews.count) {
         TitleLabel *twoLabel = self.labelsScrollView.subviews[twoIndex];
-        [twoLabel adjust:twoPercent];
+        twoLabel.change = twoPercent;
     }
+    label.change = onePercent;
 }
 
 /**

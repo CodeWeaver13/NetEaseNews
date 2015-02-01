@@ -20,7 +20,7 @@
 // 来源
 @property (nonatomic, copy) NSString *source;
 // apps
-@property (nonatomic, strong) NSArray *apps;
+@property (nonatomic, strong) NSArray *app;
 // link
 @property (nonatomic, strong) NSArray *link;
 // tid
@@ -30,7 +30,7 @@
 // topiclist_news
 @property (nonatomic, strong) NSArray *topiclist_news;
 
-@property (nonatomic, assign) BOOL picnews;
+@property (nonatomic, copy) NSNumber *picnews;
 
 @property (nonatomic, copy) NSString *template;
 
@@ -44,7 +44,7 @@
 
 @property (nonatomic, copy) NSString *replyBoard;
 
-@property (nonatomic, assign) BOOL hasNext;
+@property (nonatomic, copy) NSNumber *hasNext;
 
 @property (nonatomic, strong) NSArray *topiclist;
 

@@ -10,6 +10,8 @@
 #import "DetailModel.h"
 #import "DetailImageModel.h"
 #import "SingleModel.h"
+#import "MGTemplateEngine.h"
+#import "ICUTemplateMatcher.h"
 #import "WSYNetworkTools.h"
 #import "MJExtension.h"
 #import "NSObject+Extension.h"
@@ -27,85 +29,105 @@
     [super viewDidLoad];
     self.title = @"新闻详情";
     [self setupNavigation];
+    [self loadData];
+}
+
+- (void)loadData {
     // 发送一个GET请求, 获得新闻的详情数据
     NSString *url = [NSString stringWithFormat:@"/nc/article/%@/full.html", self.singleModel.docid];
     [[WSYNetworkTools sharedNetworkTools] GET:url parameters:nil success:^(NSURLSessionDataTask *operation, NSDictionary *responseObject) {
-//        self.detail = [DetailModel detailWithDict:responseObject[self.singleModel.docid]];
         self.detail = [DetailModel objectWithKeyValues:responseObject[self.singleModel.docid]];
-        [self showNewsDetail];
-//        NSLog(@"%@", responseObject);
+        NSString *html = [self loadHTMLByMGTempEngine:self.detail];
+        [self.webView loadHTMLString:html baseURL:[NSURL URLWithString:[[NSBundle mainBundle] pathForResource:@"content" ofType:@"css"]]];
     } failure:^(NSURLSessionDataTask *operation, NSError *error) {
         NSLog(@"%@", error);
     }];
 }
 
-/**
- *  显示新闻详情数据
- */
-- (void)showNewsDetail
-{
-    NSMutableString *html = [NSMutableString string];
-    // 头部内容
-    [html appendString:@"<html>"];
-    [html appendString:@"<head>"];
-    [html appendFormat:@"<link rel=\"stylesheet\" href=\"%@\">", [[NSBundle mainBundle] URLForResource:@"Detail.css" withExtension:nil]];
-    [html appendString:@"</head>"];
-    
-    // 具体内容
-    [html appendString:@"<body>"];
-    
-    // 将图片插入body对应的标记中, 比如<!--IMG#0-->
-    [html appendString:[self setupBody]];
-    
-    [html appendString:@"</body>"];
-    
-    // 尾部内容
-    [html appendString:@"</html>"];
-    
-    // 显示网页
-    [self.webView loadHTMLString:html baseURL:nil];
+- (NSString *)loadHTMLByMGTempEngine:(DetailModel *)data {
+    NSString *tempPath = [[NSBundle mainBundle] pathForResource:@"content_template" ofType:@"html"];
+    NSLog(@"%@", tempPath);
+    MGTemplateEngine *engine = [MGTemplateEngine templateEngine];
+    [engine setMatcher:[ICUTemplateMatcher matcherWithTemplateEngine:engine]];
+    if (data.title) {
+        [engine setObject:data.title forKey:@"title"];
+    }
+    if (data.source) {
+        [engine setObject:data.source forKey:@"source"];
+    }
+    if (data.ptime) {        
+        NSString *newptime = [data.ptime substringWithRange:NSMakeRange(6, 10)];
+        [engine setObject:newptime forKey:@"ptime"];
+    }
+    if (data.body) {
+        NSString *newbody = [self setupBody:data.body];
+        [engine setObject:newbody forKey:@"body"];        
+    }
+    if (data.source_url) {
+        [engine setObject:data.source_url forKey:@"source_url"];
+    }
+    if (data.app) {
+        [engine setObject:data.app forKey:@"app"];
+    }
+    if (data.replyBoard) {
+        [engine setObject:data.replyBoard forKey:@"replyBoard"];
+    }
+    [engine setObject:data.link forKey:@"link"];
+    [engine setObject:data.tid forKey:@"tid"];
+    [engine setObject:data.boboList forKey:@"boboList"];
+    [engine setObject:data.img forKey:@"img"];
+    [engine setObject:data.topiclist_news forKey:@"topiclist_news"];
+    [engine setObject:data.picnews forKey:@"picnews"];
+    [engine setObject:data.relative forKey:@"relative"];
+    [engine setObject:data.replyCount forKey:@"replyCount"];
+    [engine setObject:data.docid forKey:@"docid"];
+    [engine setObject:data.hasNext forKey:@"hasNext"];
+    [engine setObject:data.topiclist forKey:@"topiclist"];
+    [engine setObject:data.votes forKey:@"votes"];
+    [engine setObject:data.voicecomment forKey:@"voicecomment"];
+    [engine setObject:data.users forKey:@"users"];
+    return [engine processTemplateInFileAtPath:tempPath withVariables:nil];
 }
 
 /**
  *  初始化body内容
  */
-- (NSString *)setupBody
+- (NSString *)setupBody:(NSString *)oldBody
 {
     NSMutableString *body = [NSMutableString string];
     
-    // 拼接标题
-    [body appendFormat:@"<div id=\"title\">%@</div>", self.detail.title];
-    
-    // 拼接时间
-    [body appendFormat:@"<div id=\"subtitle\">%@ %@</div><br/>", self.detail.source, [self.detail.ptime substringWithRange:NSMakeRange(6, 10)]];
-    
-//    [body appendFormat:@"<span id=\"subtitle\">%@</span>", self.detail.ptime];
-    
+    [body appendString:oldBody];
     // 拼接图片
-    [body appendString:self.detail.body];
     for (DetailImageModel *img in self.detail.img) {
-        // 图片的html字符串
         NSMutableString *imgHtml = [NSMutableString string];
-        [imgHtml appendString:@"<div class=\"img-parent\">"];
+        [imgHtml appendString:@"<div class=\"img-pare   nt\">"];
         
         // img.pixel = 500*332
-        NSArray *pixel = [img.pixel componentsSeparatedByString:@"*"];
-        int width = [[pixel firstObject] intValue];
-        int height = [[pixel lastObject] intValue];
-        int maxWidth = [UIScreen mainScreen].bounds.size.width * 0.8;
-        if (width > maxWidth) { // 限制尺寸
-            height = height * maxWidth / width;
-            width = maxWidth;
-        }
+//        NSArray *pixel = [img.pixel componentsSeparatedByString:@"*"];
+//        int width = [[pixel firstObject] intValue];
+//        int height = [[pixel lastObject] intValue];
+//        int maxWidth = [UIScreen mainScreen].bounds.size.width * 1.9;
+//        if (width > maxWidth) { // 限制尺寸
+//            height = height * maxWidth / width;
+//            width = maxWidth;
+//        }
+//            height = height * maxWidth / width;
+//            width = maxWidth;
+//        }
         
         NSString *onload = @"this.onclick = function() {"
         "   window.location.href = 'hm:saveImageToAlbum:&' + this.src;"
         "};";
         
-        [imgHtml appendFormat:@"<img onload=\"%@\" width=\"%d\" height=\"%d\" src=\"%@\">", onload, width, height, img.src];
+        [imgHtml appendFormat:@"<img onload=\"%@\" width=\"%d\" src=\"%@\">", onload, (int)[UIScreen mainScreen].bounds.size.width - 20, img.src];
         [imgHtml appendString:@"</div><br/>"];
         
+        
+//        [imgHtml appendFormat:@"<img src=\"%@\">", img.src];
+//        [imgHtml appendString:@"</div><br/>"];
+
         // 将img.ref替换为img标签的内容
+        [body replaceOccurrencesOfString:@"　" withString:@"" options:NSCaseInsensitiveSearch range:NSMakeRange(0, body.length)];
         [body replaceOccurrencesOfString:img.ref withString:imgHtml options:NSCaseInsensitiveSearch range:NSMakeRange(0, body.length)];
     }
     return body;
@@ -113,12 +135,12 @@
 
 /**
  *  保存图片到相册
+        // 图片的html字符串
  *
  *  @param src 图片路径
  */
 - (void)saveImageToAlbum:(NSString *)src
 {
-    // UIAlertController == UIAletView + UIActionSheet
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"友情提示" message:@"是否要保存图片到相册?" preferredStyle:UIAlertControllerStyleActionSheet];
     [alert addAction:[UIAlertAction actionWithTitle:@"是" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         // UIWebView的缓存由NSURLCache来管理
@@ -221,5 +243,4 @@
     [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
 }
-
 @end

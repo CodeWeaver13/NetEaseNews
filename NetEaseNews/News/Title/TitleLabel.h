@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 @interface TitleLabel : UILabel
 
-@property (nonatomic, assign) BOOL selected;
-- (void)adjust:(CGFloat)percent;
+@property (nonatomic, assign) CGFloat change;
 @end

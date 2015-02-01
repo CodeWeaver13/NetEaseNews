@@ -12,12 +12,14 @@
 #import "SingleNewsHeaderCell.h"
 #import "DetailNavigationController.h"
 #import "DetailViewController.h"
+#import "PhotosetViewController.h"
+
 #import "MJExtension.h"
 #import "NSObject+Extension.h"
 #import "MJRefresh.h"
 #import "WSYNetworkTools.h"
 
-@interface SingleNewsTableViewController ()
+@interface SingleNewsTableViewController () <UIViewControllerTransitioningDelegate>
 @property (nonatomic, strong) NSMutableArray *newsList;
 @property (nonatomic, strong) NSString *currentUrl;
 @end
@@ -115,20 +117,25 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"%ld", (long)indexPath.row);
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"DetailView" bundle:nil];
+    SingleModel *single = self.newsList[indexPath.row];
+    if (single.photosetID) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Photoset" bundle:nil];
+        PhotosetViewController *newsPhotoset = sb.instantiateInitialViewController;
+        newsPhotoset.singleModel = single;
+        [self.view.window.rootViewController presentViewController:newsPhotoset animated:YES completion:nil];
+    } else {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"DetailView" bundle:nil];
+        DetailViewController *newsDetails = sb.instantiateInitialViewController;
+        newsDetails.singleModel = single;
+        DetailNavigationController *dNavi = [[DetailNavigationController alloc] initWithRootViewController:newsDetails];
+        self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCustom;
+        // 过渡的delegate
+        //    self.view.window.rootViewController.transitioningDelegate = [ZLTransitioning sharedTransitioning];
+        
+        [self.view.window.rootViewController presentViewController:dNavi animated:YES completion:nil];
+//            UINavigationController *navi = (UINavigationController *)self.view.window.rootViewController;
+//            [navi pushViewController:newsDetails animated:YES];
+    }
     
-    DetailViewController *newsDetails = sb.instantiateInitialViewController;
-    newsDetails.singleModel = self.newsList[indexPath.row];
-    DetailNavigationController *dNavi = [[DetailNavigationController alloc] initWithRootViewController:newsDetails];
-    self.modalPresentationStyle = UIModalPresentationOverFullScreen;
-    self.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.view.window.rootViewController presentViewController:dNavi animated:YES completion:nil];
-    
-//    UINavigationController *navi = (UINavigationController *)self.view.window.rootViewController;
-//    [navi pushViewController:newsDetails animated:YES];
-}
-
-- (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end
