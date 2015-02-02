@@ -8,8 +8,9 @@
 
 #import "DetailModel.h"
 #import "DetailImageModel.h"
+#import "DetailVideoModel.h"
 @implementation DetailModel
 - (NSDictionary *)objectClassInArray {
-    return @{@"img" : [DetailImageModel class]};
+    return @{@"img" : [DetailImageModel class], @"video" : [DetailVideoModel class]};
 }
 @end

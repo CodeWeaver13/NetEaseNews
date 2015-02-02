@@ -9,17 +9,10 @@
 #import "TitleLabel.h"
 
 static const CGFloat NormalSize = 14.0f;
-static const CGFloat SelectSize = 20.0f;
+static const CGFloat SelectSize = 18.0f;
 
 #define NormalFont [UIFont systemFontOfSize:NormalSize]
 #define SelectedFont [UIFont systemFontOfSize:SelectSize]
-
-@interface TitleLabel()
-@property (nonatomic, assign) int red;
-@property (nonatomic, assign) int green;
-@property (nonatomic, assign) int blue;
-@end
-
 @implementation TitleLabel
 
 - (instancetype)initWithFrame:(CGRect)frame {

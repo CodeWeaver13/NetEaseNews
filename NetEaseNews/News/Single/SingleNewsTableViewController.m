@@ -25,10 +25,13 @@
 @end
 
 @implementation SingleNewsTableViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupRefresh];
-    self.tableView.showsVerticalScrollIndicator = NO;
+    self.tableView.backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tableView.bounds.size.width, self.tableView.bounds.size.height)];
+    self.tableView.backgroundView.backgroundColor = [UIColor colorWithRed:arc4random_uniform(255)/255.0 green:arc4random_uniform(255)/255.0 blue:arc4random_uniform(255)/255.0 alpha:1];
+//    self.tableView.showsVerticalScrollIndicator = NO;
 }
 
 /**
@@ -69,7 +72,6 @@
     a += 20;
     NSString *str2 = [NSString stringWithFormat:@"%d", a];
     [str replaceOccurrencesOfString:str1 withString:str2 options:NSCaseInsensitiveSearch range:NSMakeRange(str.length - 7, 2)];
-    NSLog(@"%@", str);
     self.currentUrl = str;
     [self setUrlString:str];
     [self.tableView reloadData];
@@ -116,26 +118,28 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%ld", (long)indexPath.row);
+    NSLog(@"%ld", indexPath.row);
     SingleModel *single = self.newsList[indexPath.row];
     if (single.photosetID) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Photoset" bundle:nil];
         PhotosetViewController *newsPhotoset = sb.instantiateInitialViewController;
         newsPhotoset.singleModel = single;
-        [self.view.window.rootViewController presentViewController:newsPhotoset animated:YES completion:nil];
+        self.navigationController.navigationBarHidden = YES;
+        [self.navigationController pushViewController:newsPhotoset animated:YES];
     } else {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"DetailView" bundle:nil];
         DetailViewController *newsDetails = sb.instantiateInitialViewController;
         newsDetails.singleModel = single;
-        DetailNavigationController *dNavi = [[DetailNavigationController alloc] initWithRootViewController:newsDetails];
-        self.view.window.rootViewController.modalPresentationStyle = UIModalPresentationCustom;
-        // 过渡的delegate
-        //    self.view.window.rootViewController.transitioningDelegate = [ZLTransitioning sharedTransitioning];
-        
-        [self.view.window.rootViewController presentViewController:dNavi animated:YES completion:nil];
-//            UINavigationController *navi = (UINavigationController *)self.view.window.rootViewController;
-//            [navi pushViewController:newsDetails animated:YES];
+        [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsCompact];
+        [self.navigationController pushViewController:newsDetails animated:YES];
     }
-    
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.delegate = nil;
+    }
+
+}
+
+- (void)dealloc {
+    NSLog(@"aaa");
 }
 @end

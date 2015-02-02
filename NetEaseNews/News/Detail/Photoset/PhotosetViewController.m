@@ -37,8 +37,9 @@
 - (void)loadData {
     // 发送一个GET请求, 获得新闻的详情数据
     NSString *photosetID =self.singleModel.photosetID;
-    photosetID = [[photosetID componentsSeparatedByString:@"|"] lastObject];
-    NSString *url = [NSString stringWithFormat:@"http://c.m.163.com/photo/api/set/0096/%@.json", photosetID];
+    NSString *ID = [[photosetID componentsSeparatedByString:@"|"] lastObject];
+    NSString *photoX = [photosetID substringWithRange:NSMakeRange(4, 4)];
+    NSString *url = [NSString stringWithFormat:@"http://c.m.163.com/photo/api/set/%@/%@.json", photoX, ID];
     self.photosetModel = [PhotosetModel objectWithJSONData:[NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]] returningResponse:nil error:nil]];
     NSLog(@"%@", self.photosetModel);
     
@@ -117,7 +118,7 @@
     [filter setValue:image forKey:kCIInputImageKey];
     [filter setValue:@10.0f forKey: @"inputRadius"];
     CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGImageRef outImage = [context createCGImage: result fromRect:[result extent]];
+    CGImageRef outImage = [context createCGImage:result fromRect:[result extent]];
     UIImage *blurImage = [UIImage imageWithCGImage:outImage];
     backIV.image = blurImage;
     backIV.contentMode = UIViewContentModeScaleAspectFill;
@@ -129,8 +130,19 @@
     self.scrollview.pagingEnabled = YES;
 }
 
+- (void)viewWillDisappear: (BOOL)animated
+{
+    [super viewWillDisappear: animated];
+    if (![[self.navigationController viewControllers] containsObject: self])
+    {
+        self.navigationController.navigationBarHidden = NO;
+    }
+}
+
 - (IBAction)backBtnClick {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
+    self.navigationController.navigationBarHidden = NO;
 }
 - (IBAction)replyBtnClick {
 }

@@ -15,8 +15,10 @@
 @property (nonatomic, copy) NSString *ptime;
 /** 新闻内容 */
 @property (nonatomic, copy) NSString *body;
-/** 新闻配图(希望这个数组中以后放HMNewsDetailImg模型) */
+/** 新闻配图(希望这个数组中以后放DetailImg模型) */
 @property (nonatomic, strong) NSArray *img;
+/** 新闻视频(希望这个数组中以后放DetailVideo模型) */
+@property (nonatomic, strong) NSArray *video;
 // 来源
 @property (nonatomic, copy) NSString *source;
 // apps
