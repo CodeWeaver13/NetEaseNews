@@ -12,10 +12,9 @@
 @interface SingleNewsHeaderCell()
 @property (weak, nonatomic) IBOutlet UIImageView *headerImageView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-
 @end
-@implementation SingleNewsHeaderCell
 
+@implementation SingleNewsHeaderCell
 + (CGFloat)rowHeight {
     return 226;
 }

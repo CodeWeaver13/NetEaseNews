@@ -1,5 +1,5 @@
 //
-//  DetailVideoModel.h
+//  NormalVideoModel.h
 //  NetEaseNews
 //
 //  Created by wangshiyu13 on 15/2/2.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DetailVideoModel : NSObject
+@interface NormalVideoModel : NSObject
 @property (nonatomic, copy) NSString *url_m3u8;
 @property (nonatomic, copy) NSString *ref;
 @property (nonatomic, copy) NSString *alt;

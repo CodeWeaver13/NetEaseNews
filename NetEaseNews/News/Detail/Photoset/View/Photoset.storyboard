@@ -181,6 +181,7 @@
                             </mask>
                         </variation>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="countCur" destination="Gsb-Jp-qX5" id="Yiy-S1-4pf"/>
                         <outlet property="countX" destination="i6w-O1-FCU" id="C4N-48-JoM"/>

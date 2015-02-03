@@ -1,5 +1,5 @@
 //
-//  DetailModel.h
+//  NormalDetailModel.h
 //  NetEaseNews
 //
 //  Created by wangshiyu13 on 15/1/26.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MJExtension.h"
-@interface DetailModel : NSObject
+@interface NormalDetailModel : NSObject
 /** 新闻标题 */
 @property (nonatomic, copy) NSString *title;
 /** 新闻发布时间 */

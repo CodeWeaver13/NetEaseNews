@@ -1,5 +1,5 @@
 //
-//  DetailNavigationController.h
+//  NormalDetailNavigationController.h
 //  NetEaseNews
 //
 //  Created by wangshiyu13 on 15/1/26.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailNavigationController : UINavigationController
+@interface NormalDetailNavigationController : UINavigationController
 
 @end

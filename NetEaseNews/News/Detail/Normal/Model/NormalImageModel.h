@@ -1,5 +1,5 @@
 //
-//  DetailImageModel.h
+//  NormalImageModel.h
 //  NetEaseNews
 //
 //  Created by wangshiyu13 on 15/1/26.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DetailImageModel : NSObject
+@interface NormalImageModel : NSObject
 /** 图片路径 */
 @property (nonatomic, copy) NSString *src;
 /** 图片尺寸 */

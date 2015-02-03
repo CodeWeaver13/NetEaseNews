@@ -10,8 +10,7 @@
 #import "SingleModel.h"
 #import "SingleNewsCell.h"
 #import "SingleNewsHeaderCell.h"
-#import "DetailNavigationController.h"
-#import "DetailViewController.h"
+#import "NormalDetailViewController.h"
 #import "PhotosetViewController.h"
 
 #import "MJExtension.h"
@@ -64,7 +63,6 @@
 }
 
 - (void)footerRereshing {
-    NSLog(@"%@", self.currentUrl);
     NSMutableString *str = [NSMutableString string];
     [str appendFormat:@"%@", self.currentUrl];
     NSString *str1 = [str substringWithRange:NSMakeRange(str.length - 7, 2)];
@@ -78,6 +76,7 @@
     [self.tableView footerEndRefreshing];
 }
 
+#pragma mark - urlString读取
 - (void)setUrlString:(NSString *)urlString {
     self.currentUrl = urlString;
     [[[WSYNetworkTools sharedNetworkTools] GET:urlString parameters:nil success:^(NSURLSessionDataTask *task, NSDictionary *responseObject) {
@@ -118,17 +117,16 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"%ld", indexPath.row);
     SingleModel *single = self.newsList[indexPath.row];
     if (single.photosetID) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Photoset" bundle:nil];
         PhotosetViewController *newsPhotoset = sb.instantiateInitialViewController;
         newsPhotoset.singleModel = single;
-        self.navigationController.navigationBarHidden = YES;
         [self.navigationController pushViewController:newsPhotoset animated:YES];
+        self.navigationController.navigationBarHidden = YES;
     } else {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"DetailView" bundle:nil];
-        DetailViewController *newsDetails = sb.instantiateInitialViewController;
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"NormalDetailView" bundle:nil];
+        NormalDetailViewController *newsDetails = sb.instantiateInitialViewController;
         newsDetails.singleModel = single;
         [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsCompact];
         [self.navigationController pushViewController:newsDetails animated:YES];
@@ -136,10 +134,10 @@
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.delegate = nil;
     }
-
 }
 
-- (void)dealloc {
-    NSLog(@"aaa");
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    NSLog(@"%s", __func__);
 }
 @end

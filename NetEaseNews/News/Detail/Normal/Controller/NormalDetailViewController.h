@@ -1,5 +1,5 @@
 //
-//  DetailViewController.h
+//  NormalDetailViewController.h
 //  NetEaseNews
 //
 //  Created by wangshiyu13 on 15/1/26.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class SingleModel;
-@interface DetailViewController : UIViewController
+@interface NormalDetailViewController : UIViewController
 @property (nonatomic, strong) SingleModel *singleModel;
 @end

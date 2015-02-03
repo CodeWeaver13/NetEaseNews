@@ -10,15 +10,12 @@
 
 static const CGFloat NormalSize = 14.0f;
 static const CGFloat SelectSize = 18.0f;
-
-#define NormalFont [UIFont systemFontOfSize:NormalSize]
-#define SelectedFont [UIFont systemFontOfSize:SelectSize]
 @implementation TitleLabel
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.userInteractionEnabled = YES;
-        self.font = NormalFont;
+        self.font = [UIFont systemFontOfSize:NormalSize];
         self.textAlignment = NSTextAlignmentCenter;
         self.change = 0.0;
     }

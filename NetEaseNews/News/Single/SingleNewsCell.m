@@ -22,9 +22,7 @@
 
 @implementation SingleNewsCell
 
-/**
- *  绘制ell的底边线
- */
+/** 绘制cell的底边线 */
 - (void)drawRect:(CGRect)rect {
     UIBezierPath *bPath = [UIBezierPath bezierPath];
     [bPath moveToPoint:CGPointMake(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame) - 1)];
@@ -68,6 +66,7 @@
     } else {
         if ([newsModel.TAG isEqualToString:@"视频"]) {
             self.videotag.hidden = NO;
+            self.videolayout.constant = -15.0;
         } else {
             self.videotag.hidden = YES;
             self.videolayout.constant = 0.0;

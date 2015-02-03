@@ -10,6 +10,9 @@
 #import "UIImageView+WebCache.h"
 #import "UIImage+Scale.h"
 #import "StatusBarHUD.h"
+#import "UIImageView+LBBlurredImage.h"
+#import "UIImage+ImageEffects.h"
+#import "SDImageCache.h"
 
 #import "PhotosetViewController.h"
 #import "PhotosetModel.h"
@@ -27,11 +30,24 @@
 @end
 
 @implementation PhotosetViewController
-
+#pragma mark - 生命周期方法
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadData];
     [self setupFirstImageView];
+    self.scrollview.showsHorizontalScrollIndicator = NO;
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    self.scrollview.pagingEnabled = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear: animated];
+    if (![[self.navigationController viewControllers] containsObject: self]) {
+        self.navigationController.navigationBarHidden = NO;
+    }
 }
 
 - (void)loadData {
@@ -70,6 +86,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:backView.bounds];
         imageView.multipleTouchEnabled = YES;
         imageView.contentMode = UIViewContentModeScaleAspectFit;
+        backView.contentMode = UIViewContentModeScaleAspectFill;
         [backView addSubview:imageView];
         [self.scrollview addSubview:backView];
     }
@@ -81,21 +98,15 @@
     UIImageView *firstIV = [backIV.subviews firstObject];
     PhotosetPhotosModel *photo = self.photosetModel.photos[0];
     [firstIV sd_setImageWithURL:[NSURL URLWithString:photo.imgurl] placeholderImage:nil options:SDWebImageHighPriority];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photo.timgurl]]];
+    [backIV setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:^{
+        NSLog(@"ok");
+    }];
+    
     self.countCur.text = @"1";
     self.descText.text = photo.note;
     self.descText.textColor = [UIColor whiteColor];
-    self.descText.font = [UIFont systemFontOfSize:13];
-    
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *image = [CIImage imageWithContentsOfURL:[NSURL URLWithString:photo.timgurl]];
-    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [filter setValue:image forKey:kCIInputImageKey];
-    [filter setValue:@10.0f forKey: @"inputRadius"];
-    CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGImageRef outImage = [context createCGImage: result fromRect:[result extent]];
-    UIImage *blurImage = [UIImage imageWithCGImage:outImage];
-    backIV.image = blurImage;
-    backIV.contentMode = UIViewContentModeScaleAspectFill;
+    self.descText.font = [UIFont systemFontOfSize:13];    
     backIV.clipsToBounds = YES;
 }
 
@@ -112,35 +123,15 @@
     UIImageView *imageView = [backIV.subviews firstObject];
     [imageView sd_setImageWithURL:[NSURL URLWithString:photo.imgurl] placeholderImage:nil options:SDWebImageHighPriority];
     
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CIImage *image = [CIImage imageWithContentsOfURL:[NSURL URLWithString:photo.timgurl]];
-    CIFilter *filter = [CIFilter filterWithName:@"CIGaussianBlur"];
-    [filter setValue:image forKey:kCIInputImageKey];
-    [filter setValue:@10.0f forKey: @"inputRadius"];
-    CIImage *result = [filter valueForKey:kCIOutputImageKey];
-    CGImageRef outImage = [context createCGImage:result fromRect:[result extent]];
-    UIImage *blurImage = [UIImage imageWithCGImage:outImage];
-    backIV.image = blurImage;
-    backIV.contentMode = UIViewContentModeScaleAspectFill;
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:photo.timgurl]]];
+    [backIV setImageToBlur:image blurRadius:kLBBlurredImageDefaultBlurRadius completionBlock:^{
+        NSLog(@"ok");
+    }];
+    backIV.backgroundColor = [UIColor whiteColor];
     backIV.clipsToBounds = YES;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    self.scrollview.pagingEnabled = YES;
-}
-
-- (void)viewWillDisappear: (BOOL)animated
-{
-    [super viewWillDisappear: animated];
-    if (![[self.navigationController viewControllers] containsObject: self])
-    {
-        self.navigationController.navigationBarHidden = NO;
-    }
-}
-
 - (IBAction)backBtnClick {
-//    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
     [self.navigationController popViewControllerAnimated:YES];
     self.navigationController.navigationBarHidden = NO;
 }
@@ -184,6 +175,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    NSLog(@"%s", __func__);
 }
 @end

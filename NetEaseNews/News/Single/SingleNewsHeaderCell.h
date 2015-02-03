@@ -9,10 +9,6 @@
 #import <UIKit/UIKit.h>
 @class SingleModel;
 @interface SingleNewsHeaderCell : UITableViewCell
-/**
- *  根据模型返回行高
- */
-+ (CGFloat)rowHeight;
-
 @property (nonatomic, strong) SingleModel *newsModel;
++ (CGFloat)rowHeight;
 @end
