@@ -18,6 +18,7 @@
 #import "NSObject+Extension.h"
 #import "NSString+StringExt.h"
 #import "StatusBarHUD.h"
+#import <WebKit/WebKit.h>
 
 @interface NormalDetailViewController () <UIWebViewDelegate>
 @property (nonatomic, strong) NormalDetailModel *detail;
