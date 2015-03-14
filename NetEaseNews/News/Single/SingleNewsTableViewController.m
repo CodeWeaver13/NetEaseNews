@@ -96,6 +96,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleModel *news = self.newsList[indexPath.row];
     NSString *ID = [SingleNewsCell cellIDWithModel:news];
+    NSLog(@"%s", __func__);
     if (indexPath.row == 0) {
         SingleNewsHeaderCell *headerCell = [tableView dequeueReusableCellWithIdentifier:@"HeaderCell"];
         headerCell.newsModel = news;
@@ -109,6 +110,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleModel *news = self.newsList[indexPath.row];
+    NSLog(@"%s", __func__);
     if (indexPath.row == 0) {
         return [SingleNewsHeaderCell rowHeight];
     } else {

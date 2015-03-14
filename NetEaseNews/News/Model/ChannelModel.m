@@ -9,7 +9,7 @@
 #import "ChannelModel.h"
 #import "SingleModel.h"
 @implementation ChannelModel
-- (NSDictionary *)objectClassInArray {
++ (NSDictionary *)objectClassInArray {
     return @{@"tList" : [SingleModel class]};
 }
 @end

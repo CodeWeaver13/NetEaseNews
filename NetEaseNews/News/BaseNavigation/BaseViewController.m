@@ -79,7 +79,6 @@
 #pragma mark - 生命周期方法
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
     // scrollView的属性
     self.contentScrollView.pagingEnabled = YES;
     self.contentScrollView.showsHorizontalScrollIndicator = NO;
@@ -100,10 +99,10 @@
 - (void)setupNavigation {
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
+
     self.navigationController.navigationBar.translucent = NO;
     [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"top_navigation_background"] forBarMetrics:UIBarMetricsDefault];
-    
+
     UIImage *headerImage = [UIImage imageNamed:@"home_header_logo"];
     headerImage = [headerImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     UIImageView *titleView = [[UIImageView alloc] initWithImage:headerImage];
@@ -111,7 +110,7 @@
     titleView.bounds = CGRectMake(0, 0, 40, 25);
     self.navigationItem.titleView = titleView;
     [self.navigationItem.backBarButtonItem setImage:[UIImage imageNamed:@"top_navigation_back"]];
-    
+
     UIButton *leftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *leftImage = [UIImage imageNamed:@"night_top_navigation_menuicon"];
     leftImage = [leftImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -122,7 +121,7 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer,leftBarBtn];
-    
+
     UIButton *rightBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *rightImage = [UIImage imageNamed:@"top_navigation_infoicon"];
     rightImage = [rightImage imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
